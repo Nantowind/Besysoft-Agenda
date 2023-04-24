@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" href="/style.css" />
+
+  <title>formulario persona</title>
+</head>
+<body>
+<div class="container">
+  <h1>Crear Persona</h1>
+  <form action="/api/persona/registro" method="post">
+    <div class="input-group">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <div class="input-group">
+      <label for="apellido">Apellido:</label>
+      <input type="text" id="apellido" name="apellido" required>
+    </div>
+    <div class="input-group">
+      <label for="ciudad">Ciudad:</label>
+      <input type="text" id="ciudad" name="ciudad" required>
+    </div>
+    <div class="input-group">
+      <label for="telefono">Teléfono:</label>
+      <input type="tel" id="telefono" name="telefono" required>
+    </div>
+    <div class="input-group">
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <button type="submit">Crear Persona</button>
+  </form>
+</div>
+</body>
+</html>

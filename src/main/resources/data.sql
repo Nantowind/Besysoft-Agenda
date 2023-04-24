@@ -1,0 +1,25 @@
+CREATE TABLE persona (
+ id VARCHAR(255) PRIMARY KEY,
+ nombre VARCHAR(255) NOT NULL,
+ apellido VARCHAR(255) NOT NULL,
+ ciudad VARCHAR(255) NOT NULL,
+ telefono VARCHAR(255) NOT NULL,
+ email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE empresa (
+ id VARCHAR(255) PRIMARY KEY,
+ nombre VARCHAR(255) NOT NULL,
+ direccion VARCHAR(255) NOT NULL,
+ ciudad VARCHAR(255) NOT NULL,
+ telefono VARCHAR(255) NOT NULL,
+ email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE contacto (
+  id VARCHAR(255) PRIMARY KEY,
+  persona_id VARCHAR(255) NOT NULL,
+  empresa_id VARCHAR(255) ,
+  FOREIGN KEY (persona_id) REFERENCES persona(id),
+  FOREIGN KEY (empresa_id) REFERENCES empresa(id)
+);

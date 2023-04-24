@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Crear Contacto</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="container">
+  <h1>Crear Contacto</h1>
+  <form action="/api/contacto/registro" method="post">
+
+    <div class="input-group">
+      <label for="idPersona">Persona:</label>
+      <select id="idPersona" name="idPersona">
+        <option>Seleccionar Persona</option>
+
+        <option th:each="persona :${personas} "
+                th:value="${persona.id}"
+                th:text="${persona.nombre}"/>
+
+      </select>
+
+    </div>
+
+    <div  class="input-group">
+      <label for="idEmpresa">Empresa:</label>
+      <select id="idEmpresa" name="idEmpresa">
+        <option>Seleccionar Empresa</option>
+
+        <option th:each="empresa :${empresas}"
+                th:value="${empresa.id}"
+                th:text="${empresa.nombre}"/>
+      </select>
+    </div>
+
+    <button type="submit">Crear Contacto</button>
+  </form>
+</div>
+</body>
+</html>
