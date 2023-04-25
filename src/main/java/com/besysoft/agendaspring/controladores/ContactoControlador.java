@@ -35,7 +35,11 @@ public class ContactoControlador {
         cargarModel(modelo);
         return "contacto";
     }
-
+    @GetMapping("/lista")
+    public String lista(ModelMap modelo){
+        cargarModel(modelo);
+        return "TablaContactos";
+    }
 
     @PostMapping("/registro")
     public String registro(ModelMap modelo,@RequestParam String idPersona,@RequestParam(required = false) String idEmpresa){
@@ -50,11 +54,14 @@ public class ContactoControlador {
         }
 
     }
+
+
     private void cargarModel(ModelMap modelo){
         List<Persona> personas = personaServicio.listarPersonas();
         List<Empresa> empresas = empresaServicio.listarEmpresas();
-
+        List<Contacto> contactos = contactoServicio.listarContactos();
         modelo.addAttribute("personas",personas);
+        modelo.addAttribute("contactos",contactos);
         modelo.addAttribute("empresas",empresas);
     }
 }

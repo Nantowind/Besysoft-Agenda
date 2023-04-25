@@ -32,16 +32,14 @@ public class EmpresaControlador {
         cargarModel(modelo);
         return "empresa";
     }
+
     @GetMapping("/lista")
     public String lista(ModelMap modelo){
-
+        cargarModel(modelo);
         return "TablaEmpresas";
     }
 
     @PostMapping("/registro")
-
-
-
     public String registroEmpresa(ModelMap modelo,
             @RequestParam String nombre,
             @RequestParam String direccion,
@@ -59,9 +57,13 @@ public class EmpresaControlador {
         }
     }
 
+
+
     private void cargarModel(ModelMap modelo){
         List<Contacto> contactos = contactoServicio.listarContactos();
         modelo.addAttribute("contactos",contactos);
+        List<Empresa> empresas = empresaServicio.listarEmpresas();
+        modelo.addAttribute("empresas",empresas);
     }
 
 }

@@ -46,13 +46,17 @@ public class PersonaServicio {
 
         return persona;
     }
+
+    //listar y obtener
     public List<Persona> listarPersonas(){
         List <Persona> personas = new ArrayList<>();
         personas = personaRepositorio.findAll();
 
         return personas;
     }
-
+    public Persona getOne(String id){
+        return personaRepositorio.getOne(id);
+    }
 
     //verficar datos nulos o vacios
     public void verificarDatosCrearPersona(String nombre,String apellido,String ciudad,String telefono,String mail) throws MiException {

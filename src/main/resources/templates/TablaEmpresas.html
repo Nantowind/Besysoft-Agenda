@@ -17,6 +17,7 @@
       <th>Ciudad</th>
       <th>Teléfono</th>
       <th>Email</th>
+      <th>Contactos</th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +28,19 @@
       <td th:text="${empresa.ciudad}"></td>
       <td th:text="${empresa.telefono}"></td>
       <td th:text="${empresa.email}"></td>
+      <td>
+        <select class="contactos-select">
+          <option>Contactos</option>
+          <option th:each="contacto :${empresa.contactos}"
+                  th:value="${contacto.id}"
+                  th:text="|${contacto.persona.nombre} ${contacto.persona.apellido} (${contacto.persona.ciudad}) - Tel: ${contacto.persona.telefono} - Email: ${contacto.persona.email}|">
+          </option>
+
+        </select>
+      </td>
+      <td>
+        <a th:href="@{/api/empresa/modificar/__${empresa .id}__}" class="button">Modificar</a>
+      </td>
     </tr>
     </tbody>
   </table>

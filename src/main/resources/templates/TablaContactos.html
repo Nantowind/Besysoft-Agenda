@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style.css" />
+    <title>Tabla de Contactos</title>
+</head>
+<body>
+<div class="container" id="tabla">
+    <h1>Lista de Contactos</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Empresa</th>
+            <th>Persona</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contacto :${contactos}">
+            <td th:text="${contacto.id}"></td>
+            <td th:text="${contacto.empresa != null ? contacto.empresa.nombre : 'Sin empresa'}"></td>
+            <td th:text="|${contacto.persona.nombre} ${contacto.persona.apellido}|"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

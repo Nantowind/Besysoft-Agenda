@@ -6,6 +6,7 @@ import com.besysoft.agendaspring.entidades.Persona;
 import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.repositorios.ContactoRepositorio;
 import com.besysoft.agendaspring.repositorios.EmpresaRepositorio;
+import com.besysoft.agendaspring.repositorios.PersonaRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,12 +92,7 @@ public class EmpresaServicio {
             throw new RuntimeException("El contacto no pertenece a la empresa");
         }
     }
-    public List<Empresa> listarEmpresas(){
-        List <Empresa> empresas = new ArrayList<>();
-        empresas = empresaRepositorio.findAll();
 
-        return empresas;
-    }
 
     //verificar datos no nulos o vacios
     public void verificarDatosCrearEmpresa(String nombre, String direccion, String ciudad, String telefono, String email) throws MiException {
@@ -116,4 +112,14 @@ public class EmpresaServicio {
             throw new MiException("agregar/eliminarContacto: Todos los campos son requeridos");
         }
     }
+
+
+    public List<Empresa> listarEmpresas(){
+        List <Empresa> empresas = new ArrayList<>();
+        empresas = empresaRepositorio.findAll();
+
+        return empresas;
+    }
+
+
 }

@@ -62,14 +62,15 @@ button:hover {
     background-color: #0056b3;
 }
 select {
-    width: 30%;
+    width: 50%;
     padding: 8px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 16px;
     background-color: #fff;
     appearance: none;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -94,4 +95,16 @@ tr:hover {
 
 tr:nth-child(even) {
     background-color: #f8f8f8;
+}
+span,
+option {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.contactos-select {
+    width: 300px; /* Ancho del cuadro desplegable */
+    height: 40px; /* Altura del cuadro desplegable */
+    font-size: 14px; /* Tamaño de fuente del texto */
 }

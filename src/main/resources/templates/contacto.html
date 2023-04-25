@@ -17,7 +17,7 @@
 
         <option th:each="persona :${personas} "
                 th:value="${persona.id}"
-                th:text="${persona.nombre}"/>
+                th:text="${persona.nombre} +' ' + ${persona.apellido}" />
 
       </select>
 
