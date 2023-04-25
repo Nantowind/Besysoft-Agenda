@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modificar Contacto</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<form th:action="@{/api/contacto/modificar/{id}(id=${contacto.id})}" th:object="${contacto}" method="post">
+  <label for="idPersona">Persona:</label>
+  <select id="idPersona" name="idPersona" required>
+    <option value="">Seleccione una persona</option>
+    <option th:each="persona :${personas}"
+            th:value="${persona.id}"
+            th:text="|${persona.nombre} ${persona.apellido}|"
+            th:selected="${persona.id == contacto.persona.id}">
+    </option>
+  </select>
+
+
+
+  <div class="form-group my-3">
+    <label class="mb-2">Empresa</label>
+    <select class="form-control" name="idEmpresa">
+      <option value="">Seleccione una empresa</option>
+      <option th:each="empresa : ${empresas}"
+              th:selected="${empresa.id == contacto.empresa?.id}"
+              th:value="${empresa.id}"
+              th:text="${empresa.nombre}">
+      </option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-3 botones">Guardar cambios</button>
+
+</form>
+</body>
+</html>

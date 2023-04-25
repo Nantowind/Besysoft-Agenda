@@ -14,6 +14,7 @@
             <th>ID</th>
             <th>Empresa</th>
             <th>Persona</th>
+            <th>Opciones</th>
         </tr>
         </thead>
         <tbody>
@@ -21,6 +22,9 @@
             <td th:text="${contacto.id}"></td>
             <td th:text="${contacto.empresa != null ? contacto.empresa.nombre : 'Sin empresa'}"></td>
             <td th:text="|${contacto.persona.nombre} ${contacto.persona.apellido}|"></td>
+            <td>
+                <a th:href="@{/api/contacto/modificar/__${contacto.id}__}" class="button">Modificar</a>
+            </td>
         </tr>
         </tbody>
     </table>

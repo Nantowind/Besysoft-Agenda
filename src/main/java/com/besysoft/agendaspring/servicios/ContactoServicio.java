@@ -49,12 +49,15 @@ public class ContactoServicio {
     }
     @Transactional
     public Contacto modificarContacto(String idContacto,String idPersona,String idEmpresa) throws MiException {
-        verificarDatosModificarontacto(idContacto,idPersona,idEmpresa);
+        verificarDatosModificarontacto(idContacto,idPersona);
         Persona persona = personaRepositorio.findById(idPersona).orElseThrow(() -> new RuntimeException("modificarContacto: Persona no encontrada"));
-        Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new RuntimeException("modificarContacto: Empresa no encontrada"));
         Contacto contacto= contactoRepositorio.findById(idContacto).orElseThrow(() -> new RuntimeException("modificarContacto: Contacto no encontrado"));
 
-        contacto.setEmpresa(empresa);
+        if (idContacto.isEmpty()){
+            Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new RuntimeException("modificarContacto: Empresa no encontrada"));
+            contacto.setEmpresa(empresa);
+        }
+
         contacto.setPersona(persona);
 
         contactoRepositorio.save(contacto);
@@ -66,7 +69,9 @@ public class ContactoServicio {
 
         return contactos;
     }
-
+    public Contacto getOne(String id){
+        return contactoRepositorio.getOne(id);
+    }
 
     //Verificacion de que ningun dato este vacio.
     private void verificarDatosCrearContacto(String idPersona) throws MiException {
@@ -74,8 +79,8 @@ public class ContactoServicio {
             throw new MiException("crearContacto: Todos los campos son requeridos");
         }
     }
-    private void verificarDatosModificarontacto(String idContacto,String idPersona,String idEmpresa) throws MiException {
-        if (idContacto == null || idContacto.isEmpty() || idPersona == null || idPersona.isEmpty() || idEmpresa == null || idEmpresa.isEmpty()) {
+    private void verificarDatosModificarontacto(String idContacto,String idPersona) throws MiException {
+        if (idContacto == null || idContacto.isEmpty() || idPersona == null || idPersona.isEmpty()) {
             throw new MiException("modificarContacto: Todos los campos son requeridos");
         }
     }

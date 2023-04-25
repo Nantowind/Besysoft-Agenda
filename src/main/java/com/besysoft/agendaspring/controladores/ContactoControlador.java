@@ -10,10 +10,7 @@ import com.besysoft.agendaspring.servicios.PersonaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -40,6 +37,36 @@ public class ContactoControlador {
         cargarModel(modelo);
         return "TablaContactos";
     }
+
+    @GetMapping("/modificar/{id}")
+    public String modificarContacto(@PathVariable String id, ModelMap modelo) {
+        Contacto contacto = contactoServicio.getOne(id);
+        List<Empresa> empresas = empresaServicio.listarEmpresas();
+        List<Persona> personas = personaServicio.listarPersonas();
+
+        modelo.addAttribute("contacto", contacto);
+        modelo.addAttribute("empresas", empresas);
+        modelo.addAttribute("personas", personas);
+
+        return "ModificarContacto";
+    }
+
+
+    @PostMapping("/modificar/{id}")
+    public String modificarContactoPost(ModelMap modelo,
+                                        @PathVariable String id,
+                                        @RequestParam String idPersona,
+                                        @RequestParam String idEmpresa) {
+        try {
+            contactoServicio.modificarContacto(id,idPersona, idEmpresa);
+            return "redirect:/api/contacto/lista";
+        } catch (MiException ex) {
+            Logger.getLogger(ContactoControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return "ModificarContacto";
+        }
+    }
+
+
 
     @PostMapping("/registro")
     public String registro(ModelMap modelo,@RequestParam String idPersona,@RequestParam(required = false) String idEmpresa){
