@@ -81,6 +81,15 @@ public class ContactoControlador {
         }
 
     }
+    @GetMapping("/eliminar/{id}")
+    public String eliminarContacto(@PathVariable String id) {
+        try {
+            contactoServicio.eliminarContacto(id);
+        } catch (MiException ex) {
+            Logger.getLogger(ContactoControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return "redirect:/api/contacto/lista";
+    }
 
 
     private void cargarModel(ModelMap modelo){

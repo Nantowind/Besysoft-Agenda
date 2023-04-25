@@ -24,6 +24,7 @@
             <td th:text="|${contacto.persona.nombre} ${contacto.persona.apellido}|"></td>
             <td>
                 <a th:href="@{/api/contacto/modificar/__${contacto.id}__}" class="button">Modificar</a>
+                <a th:href="@{/api/contacto/eliminar/__${contacto.id}__}" class="button">Eliminar</a>
             </td>
         </tr>
         </tbody>

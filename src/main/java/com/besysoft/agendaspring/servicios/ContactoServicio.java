@@ -63,6 +63,33 @@ public class ContactoServicio {
         contactoRepositorio.save(contacto);
         return contacto;
     }
+    @Transactional
+    public void eliminarContacto(String idContacto) throws MiException {
+        Optional<Contacto> contactoOptional = contactoRepositorio.findById(idContacto);
+
+        if (!contactoOptional.isPresent()) {
+            throw new MiException("Contacto no encontrado con el ID proporcionado");
+        }
+
+        Contacto contacto = contactoOptional.get();
+
+        List<Empresa> empresas = empresaRepositorio.findByContactos_Id(idContacto);
+        if (!empresas.isEmpty()) {
+            throw new MiException("No se puede eliminar el contacto porque está asociado a una o más empresas.");
+        }
+
+        contactoRepositorio.delete(contacto);
+    }
+
+
+
+
+
+
+
+
+
+
     public List<Contacto> listarContactos(){
         List <Contacto> contactos = new ArrayList<>();
         contactos = contactoRepositorio.findAll();
