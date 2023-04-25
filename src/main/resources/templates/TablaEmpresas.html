@@ -46,10 +46,10 @@
         <a th:href="@{/api/empresa/agregar-contacto/__${empresa.id}__}" class="button">Agregar contacto</a>
       </td>
       <td>
-        <a th:href="@{/api/empresa/eliminar-contacto/__${empresa.id}__}" class="button">Eliminar empresa</a>
+        <a th:href="@{/api/empresa/eliminar-contacto/__${empresa.id}__}" class="button">Eliminar contacto</a>
       </td>
       <td>
-        <a href="" class="button">Eliminar contacto</a>
+        <a th:href="@{/api/empresa/eliminar-empresa/__${empresa.id}__}" class="button">Eliminar</a>
       </td>
     </tr>
     </tbody>

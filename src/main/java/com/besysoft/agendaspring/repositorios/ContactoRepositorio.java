@@ -13,4 +13,5 @@ public interface ContactoRepositorio extends JpaRepository<Contacto, String> {
     @Query("SELECT c FROM Contacto c WHERE c.id = :id")
     Contacto buscarPorId(@Param("id") String id);
     List<Contacto> findByPersonaId(String personaId);
+    List<Contacto> findByEmpresaId(String idEmpresa);
 }

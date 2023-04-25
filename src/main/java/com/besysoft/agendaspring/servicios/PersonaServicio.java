@@ -51,7 +51,7 @@ public class PersonaServicio {
     }
     @Transactional
     public void eliminarPersona(String idPersona) throws MiException {
-        verificarDatosEliminarPersona(idPersona); // Verifica si los datos son válidos antes de eliminar
+        verificarDatosEliminarPersona(idPersona);
         verificarSiPersonaTieneContacto(idPersona);
         personaRepositorio.deleteById(idPersona);
     }

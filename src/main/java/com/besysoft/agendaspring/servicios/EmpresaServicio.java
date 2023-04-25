@@ -92,7 +92,12 @@ public class EmpresaServicio {
             throw new RuntimeException("El contacto no pertenece a la empresa");
         }
     }
-
+    @Transactional
+    public void eliminarEmpresa(String idEmpresa) throws MiException {
+        verificarEmpresaAsociadaAContactos(idEmpresa);
+        Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new RuntimeException("eliminarEmpresa: Empresa no encontrada"));
+        empresaRepositorio.delete(empresa);
+    }
 
     //verificar datos no nulos o vacios
     public void verificarDatosCrearEmpresa(String nombre, String direccion, String ciudad, String telefono, String email) throws MiException {
@@ -113,6 +118,12 @@ public class EmpresaServicio {
         }
     }
 
+    private void verificarEmpresaAsociadaAContactos(String idEmpresa) throws MiException {
+        List<Contacto> contactosAsociados = contactoRepositorio.findByEmpresaId(idEmpresa);
+        if (!contactosAsociados.isEmpty()) {
+            throw new MiException("La empresa está asociada a uno o más contactos y no puede ser eliminada.");
+        }
+    }
 
     public List<Empresa> listarEmpresas(){
         List <Empresa> empresas = new ArrayList<>();

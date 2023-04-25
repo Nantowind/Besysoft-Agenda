@@ -96,6 +96,17 @@ public class EmpresaControlador {
 
         return "EliminarContactoEmpresa";
     }
+
+    @GetMapping("/eliminar-empresa/{idEmpresa}")
+    public String eliminarEmpresa(@PathVariable String idEmpresa) {
+        try {
+            empresaServicio.eliminarEmpresa(idEmpresa);
+        } catch (MiException ex) {
+            Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return "redirect:/api/empresa/lista";
+    }
+
     @PostMapping("/eliminar-contacto/{idEmpresa}")
     public String eliminarContactoEmpresa(ModelMap modelo,
                                           @PathVariable String idEmpresa,
