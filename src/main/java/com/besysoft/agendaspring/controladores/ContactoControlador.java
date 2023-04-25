@@ -51,13 +51,13 @@ public class ContactoControlador {
     public String modificarContactoPost(ModelMap modelo,
                                         @PathVariable String id,
                                         @RequestParam String idPersona,
-                                        @RequestParam String idEmpresa) {
+                                        @RequestParam(required = false) String idEmpresa) {
         try {
-            contactoServicio.modificarContacto(id,idPersona, idEmpresa);
+            contactoServicio.modificarContacto(id, idPersona, idEmpresa);
             return "redirect:/api/contacto/lista";
         } catch (MiException ex) {
             Logger.getLogger(ContactoControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            return "ModificarContacto";
+            return "redirect:/api/contacto/lista";
         }
     }
 
@@ -73,6 +73,7 @@ public class ContactoControlador {
             return "redirect:/api/contacto/lista";
         } catch (MiException ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());
+            Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             return "redirect:/api/contacto/registrar";
         }
     }

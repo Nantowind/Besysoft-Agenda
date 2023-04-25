@@ -6,28 +6,39 @@
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-<form class="formulario" th:action="@{/api/empresa/agregar-contacto/__${empresa.id}__}" method="POST">
+<div class="container">
 
-  <input hidden th:value="${empresa.id}" name="idEmpresa">
 
-  <div class="form-group my-3">
-    <label class="mb-2">Empresa</label>
-    <p th:text="'Empresa: ' + ${empresa.nombre}"></p>
-  </div>
 
-  <div class="form-group my-3">
-    <label class="mb-2">Contacto</label>
-    <select class="form-control" name="idContacto" required>
-      <option value="">Seleccione un contacto</option>
-      <option th:each="contacto : ${contactos}"
-              th:value="${contacto.id}"
-              th:text="|${contacto.persona.nombre} ${contacto.persona.apellido} (${contacto.persona.ciudad}) - Tel: ${contacto.persona.telefono} - Email: ${contacto.persona.email}|">
-      </option>
-    </select>
-  </div>
+  <form class="formulario" th:action="@{/api/empresa/agregar-contacto/__${empresa.id}__}" method="POST">
 
-  <button type="submit" class="btn btn-primary mt-3 botones">Agregar Contacto</button>
+    <input hidden th:value="${empresa.id}" name="idEmpresa">
 
-</form>
+    <div class="form-group my-3">
+      <label class="mb-2">Empresa</label>
+      <p th:text="'Empresa: ' + ${empresa.nombre}"></p>
+    </div>
+
+    <div class="form-group my-3">
+      <label class="mb-2">Contacto</label>
+      <select class="form-control" name="idContacto" required>
+        <option value="">Seleccione un contacto</option>
+        <option th:each="contacto : ${contactos}"
+                th:value="${contacto.id}"
+                th:text="|${contacto.persona.nombre} ${contacto.persona.apellido} (${contacto.persona.ciudad}) - Tel: ${contacto.persona.telefono} - Email: ${contacto.persona.email}|">
+        </option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3 botones">Agregar Contacto</button>
+    <div class="back-buttons">
+      <a href="/api/empresa/lista" class="back-button">Volver a Lista de Empresas</a>
+    </div>
+
+  </form>
+
+
+</div>
+
 </body>
 </html>

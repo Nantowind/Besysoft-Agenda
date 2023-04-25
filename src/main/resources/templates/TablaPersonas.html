@@ -39,11 +39,14 @@
       <td>
         <a th:href="@{/api/persona/modificar/__${persona.id}__}" class="button">Modificar</a>
         <a th:href="@{/api/persona/eliminar/__${persona.id}__}" class="button">Eliminar</a>
-
       </td>
     </tr>
     </tbody>
   </table>
+  <div th:if="${error != null}" class="error-box">
+    <h5>Mensaje</h5>
+    <p th:text="${error}"></p>
+  </div>
 </div>
 </body>
 </html>

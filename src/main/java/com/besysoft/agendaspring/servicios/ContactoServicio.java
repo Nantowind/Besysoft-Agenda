@@ -28,7 +28,7 @@ public class ContactoServicio {
     @Transactional
     public Contacto crearContacto(String idPersona, String idEmpresa) throws MiException {
         verificarDatosCrearContacto(idPersona);
-        Persona persona = personaRepositorio.findById(idPersona).orElseThrow(() -> new RuntimeException("crearContacto: Persona no encontrada"));
+        Persona persona = personaRepositorio.findById(idPersona).orElseThrow(() -> new RuntimeException("Crear Contacto: Persona no encontrada"));
 
         Contacto contacto = new Contacto();
         contacto.setPersona(persona);
@@ -47,13 +47,17 @@ public class ContactoServicio {
         contactoRepositorio.save(contacto);
         return contacto;
     }
+
+
+
+
     @Transactional
     public Contacto modificarContacto(String idContacto, String idPersona, String idEmpresa) throws MiException {
         verificarDatosModificarontacto(idContacto, idPersona);
         Persona persona = personaRepositorio.findById(idPersona).orElseThrow(() -> new RuntimeException("modificarContacto: Persona no encontrada"));
         Contacto contacto = contactoRepositorio.findById(idContacto).orElseThrow(() -> new RuntimeException("modificarContacto: Contacto no encontrado"));
 
-        if (!idEmpresa.isEmpty()) { // Cambia la condición aquí
+        if (idEmpresa != null && !idEmpresa.isEmpty()) { // Cambia la condición aquí
             Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new RuntimeException("modificarContacto: Empresa no encontrada"));
             contacto.setEmpresa(empresa);
         }
@@ -63,6 +67,8 @@ public class ContactoServicio {
         contactoRepositorio.save(contacto);
         return contacto;
     }
+
+
 
     @Transactional
     public void eliminarContacto(String idContacto) throws MiException {

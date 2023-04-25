@@ -38,19 +38,19 @@ public class EmpresaControlador {
 
     @PostMapping("/registro")
     public String registroEmpresa(ModelMap modelo,
-            @RequestParam String nombre,
-            @RequestParam String direccion,
-            @RequestParam String ciudad,
-            @RequestParam String telefono,
-            @RequestParam String email,
-            @RequestParam(required = false) String idContacto) {
+                                  @RequestParam String nombre,
+                                  @RequestParam String direccion,
+                                  @RequestParam String ciudad,
+                                  @RequestParam String telefono,
+                                  @RequestParam String email,
+                                  @RequestParam(required = false) String idContacto) {
         try {
             cargarModel(modelo);
             empresaServicio.crearEmpresa(nombre, direccion, ciudad, telefono, email, idContacto);
-            return "empresa";
+            return "redirect:/api/empresa/lista";
         } catch (MiException ex) {
             Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            return "empresa";
+            return "redirect:/api/empresa/registrar";
         }
     }
     @GetMapping("/modificar/{id}")
@@ -106,9 +106,9 @@ public class EmpresaControlador {
         } catch (MiException ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());
             Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            return "redirect:/api/empresa/lista";
-        }
 
+        }
+        return "redirect:/api/empresa/lista";
     }
 
     @PostMapping("/eliminar-contacto/{idEmpresa}")

@@ -6,37 +6,43 @@
     <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-<form class="formulario" th:action="@{/api/persona/modificar/__${persona.id}__}" method="POST">
+<div class="container">
 
-    <input hidden th:value="${id}" name="id">
+    <form class="formulario" th:action="@{/api/persona/modificar/__${persona.id}__}" method="POST">
 
-    <div class="form-group my-3">
-        <label class="mb-2">Nombre</label>
-        <input th:value="${persona.nombre}" type="text" class="form-control" name="nombre">
-    </div>
+        <input hidden th:value="${id}" name="id">
 
-    <div class="form-group my-3">
-        <label class="mb-2">Apellido</label>
-        <input th:value="${persona.apellido}" type="text" class="form-control" name="apellido">
-    </div>
+        <div class="form-group my-3">
+            <label class="mb-2">Nombre</label>
+            <input th:value="${persona.nombre}" type="text" class="form-control" name="nombre">
+        </div>
 
-    <div class="form-group my-3">
-        <label class="mb-2">Ciudad</label>
-        <input th:value="${persona.ciudad}" type="text" class="form-control" name="ciudad">
-    </div>
+        <div class="form-group my-3">
+            <label class="mb-2">Apellido</label>
+            <input th:value="${persona.apellido}" type="text" class="form-control" name="apellido">
+        </div>
 
-    <div class="form-group my-3">
-        <label class="mb-2">Teléfono</label>
-        <input th:value="${persona.telefono}" type="tel" class="form-control" name="telefono">
-    </div>
+        <div class="form-group my-3">
+            <label class="mb-2">Ciudad</label>
+            <input th:value="${persona.ciudad}" type="text" class="form-control" name="ciudad">
+        </div>
 
-    <div class="form-group my-3">
-        <label class="mb-2">Email</label>
-        <input th:value="${persona.email}" type="email" class="form-control" name="email">
-    </div>
+        <div class="form-group my-3">
+            <label class="mb-2">Teléfono</label>
+            <input th:value="${persona.telefono}" type="tel" class="form-control" name="telefono">
+        </div>
 
-    <button type="submit" class="btn btn-primary mt-3 botones">Actualizar</button>
+        <div class="form-group my-3">
+            <label class="mb-2">Email</label>
+            <input th:value="${persona.email}" type="email" class="form-control" name="email">
+        </div>
 
-</form>
+        <button type="submit" class="btn btn-primary mt-3 botones">Actualizar</button>
+        <div class="back-buttons">
+            <a href="/api/persona/lista" class="back-button">Volver a Lista de Personas</a>
+        </div>
+    </form>
+
+</div>
 </body>
 </html>

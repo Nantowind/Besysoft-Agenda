@@ -104,7 +104,7 @@ option {
     text-overflow: ellipsis;
 }
 .contactos-select {
-    width: 300px; /* Ancho del cuadro desplegable */
+    width: 200px; /* Ancho del cuadro desplegable */
     height: 40px; /* Altura del cuadro desplegable */
     font-size: 14px; /* Tamaño de fuente del texto */
 }
@@ -136,4 +136,20 @@ option {
 .navbar a:hover {
     background-color: #555;
     color: white;
+}
+.back-button {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: white;
+    background-color: #333;
+    border: 1px solid #333;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background-color: #555;
+    border-color: #555;
 }
