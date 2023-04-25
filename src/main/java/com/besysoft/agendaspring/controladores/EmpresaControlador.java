@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -98,24 +98,30 @@ public class EmpresaControlador {
     }
 
     @GetMapping("/eliminar-empresa/{idEmpresa}")
-    public String eliminarEmpresa(@PathVariable String idEmpresa) {
+    public String eliminarEmpresa(@PathVariable String idEmpresa,RedirectAttributes redirectAttrs) {
         try {
             empresaServicio.eliminarEmpresa(idEmpresa);
+            redirectAttrs.addFlashAttribute("error", "Empresa eliminada");
+            return "redirect:/api/empresa/lista";
         } catch (MiException ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
             Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return "redirect:/api/empresa/lista";
         }
-        return "redirect:/api/empresa/lista";
+
     }
 
     @PostMapping("/eliminar-contacto/{idEmpresa}")
     public String eliminarContactoEmpresa(ModelMap modelo,
                                           @PathVariable String idEmpresa,
-                                          @RequestParam String idContacto) {
+                                          @RequestParam String idContacto
+                                          ) {
         try {
             cargarModel(modelo);
             empresaServicio.eliminarContactoDeEmpresa(idEmpresa, idContacto);
             return "redirect:/api/empresa/lista";
         } catch (MiException ex) {
+
             Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             return "EliminarContactoEmpresa";
         }

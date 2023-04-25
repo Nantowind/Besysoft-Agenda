@@ -17,7 +17,7 @@
 
   <div class="form-group my-3">
     <label class="mb-2">Contacto</label>
-    <select class="form-control" name="idContacto">
+    <select class="form-control" name="idContacto" required>
       <option value="">Seleccione un contacto</option>
       <option th:each="contacto : ${contactos}"
               th:value="${contacto.id}"

@@ -1,17 +1,12 @@
 package com.besysoft.agendaspring.controladores;
-
-import com.besysoft.agendaspring.entidades.Contacto;
-import com.besysoft.agendaspring.entidades.Empresa;
-import com.besysoft.agendaspring.entidades.Persona;
+import com.besysoft.agendaspring.entidades.*;
 import com.besysoft.agendaspring.exepciones.MiException;
-import com.besysoft.agendaspring.servicios.ContactoServicio;
-import com.besysoft.agendaspring.servicios.EmpresaServicio;
-import com.besysoft.agendaspring.servicios.PersonaServicio;
+import com.besysoft.agendaspring.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,23 +64,28 @@ public class ContactoControlador {
 
 
     @PostMapping("/registro")
-    public String registro(ModelMap modelo,@RequestParam String idPersona,@RequestParam(required = false) String idEmpresa){
+    public String registro(ModelMap modelo, @RequestParam String idPersona,RedirectAttributes redirectAttrs,
+                           @RequestParam(required = false) String idEmpresa) {
         cargarModel(modelo);
 
         try {
-            contactoServicio.crearContacto(idPersona,idEmpresa);
-            return "contacto";
-        }catch (MiException ex){
-            Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            return "contacto";
+            contactoServicio.crearContacto(idPersona, idEmpresa);
+            return "redirect:/api/contacto/lista";
+        } catch (MiException ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/api/contacto/registrar";
         }
-
     }
+
+
     @GetMapping("/eliminar/{id}")
-    public String eliminarContacto(@PathVariable String id) {
+    public String eliminarContacto(@PathVariable String id, ModelMap modelo, RedirectAttributes redirectAttrs) {
         try {
             contactoServicio.eliminarContacto(id);
+            redirectAttrs.addFlashAttribute("error", "Contacto eliminado");
+            return "redirect:/api/contacto/lista";
         } catch (MiException ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
             Logger.getLogger(ContactoControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         return "redirect:/api/contacto/lista";

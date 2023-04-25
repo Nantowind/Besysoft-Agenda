@@ -73,10 +73,10 @@ public class PersonaControlador {
     public String registro(@RequestParam String nombre, String apellido ,String ciudad,String telefono,String email) {
        try {
            personaServicio.crearPersona(nombre,apellido,ciudad,telefono,email);
-           return "persona";
+           return "redirect:/api/persona/lista";
        }catch (MiException ex){
            Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-           return "persona";
+           return "redirect:/api/persona/registrar";
        }
 
     }

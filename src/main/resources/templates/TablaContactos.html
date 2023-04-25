@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/style.css" />
     <title>Tabla de Contactos</title>
 </head>
 <body>
+<div class="navbar">
+    <a href="/api/persona/registrar">Registrar Persona</a>
+    <a href="/api/persona/lista">Lista de Personas</a>
+    <a href="/api/empresa/registrar">Registrar Empresa</a>
+    <a href="/api/empresa/lista">Lista de Empresas</a>
+    <a href="/api/contacto/registrar">Registrar Contacto</a>
+    <a href="/api/contacto/lista">Lista de Contactos</a>
+</div>
 <div class="container" id="tabla">
     <h1>Lista de Contactos</h1>
+
     <table>
         <thead>
         <tr>
@@ -29,6 +38,12 @@
         </tr>
         </tbody>
     </table>
+    <div>
+        <div th:if="${error != null}" class="error-box">
+            <h5>Mensaje</h5>
+            <p th:text="${error}"></p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -48,12 +48,12 @@ public class ContactoServicio {
         return contacto;
     }
     @Transactional
-    public Contacto modificarContacto(String idContacto,String idPersona,String idEmpresa) throws MiException {
-        verificarDatosModificarontacto(idContacto,idPersona);
+    public Contacto modificarContacto(String idContacto, String idPersona, String idEmpresa) throws MiException {
+        verificarDatosModificarontacto(idContacto, idPersona);
         Persona persona = personaRepositorio.findById(idPersona).orElseThrow(() -> new RuntimeException("modificarContacto: Persona no encontrada"));
-        Contacto contacto= contactoRepositorio.findById(idContacto).orElseThrow(() -> new RuntimeException("modificarContacto: Contacto no encontrado"));
+        Contacto contacto = contactoRepositorio.findById(idContacto).orElseThrow(() -> new RuntimeException("modificarContacto: Contacto no encontrado"));
 
-        if (idContacto.isEmpty()){
+        if (!idEmpresa.isEmpty()) { // Cambia la condición aquí
             Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new RuntimeException("modificarContacto: Empresa no encontrada"));
             contacto.setEmpresa(empresa);
         }
@@ -63,6 +63,7 @@ public class ContactoServicio {
         contactoRepositorio.save(contacto);
         return contacto;
     }
+
     @Transactional
     public void eliminarContacto(String idContacto) throws MiException {
         Optional<Contacto> contactoOptional = contactoRepositorio.findById(idContacto);
@@ -75,6 +76,7 @@ public class ContactoServicio {
 
         List<Empresa> empresas = empresaRepositorio.findByContactos_Id(idContacto);
         if (!empresas.isEmpty()) {
+
             throw new MiException("No se puede eliminar el contacto porque está asociado a una o más empresas.");
         }
 
@@ -103,7 +105,7 @@ public class ContactoServicio {
     //Verificacion de que ningun dato este vacio.
     private void verificarDatosCrearContacto(String idPersona) throws MiException {
         if (idPersona == null || idPersona.isEmpty()) {
-            throw new MiException("crearContacto: Todos los campos son requeridos");
+            throw new MiException("crearContacto: El campo persona no puede estar vacio");
         }
     }
     private void verificarDatosModificarontacto(String idContacto,String idPersona) throws MiException {

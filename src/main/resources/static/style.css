@@ -108,3 +108,32 @@ option {
     height: 40px; /* Altura del cuadro desplegable */
     font-size: 14px; /* Tamaño de fuente del texto */
 }
+.error-box {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #721c24;
+    width: 400px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+    padding: 10px 0;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    padding: 8px 16px;
+    transition: background-color 0.3s;
+}
+
+.navbar a:hover {
+    background-color: #555;
+    color: white;
+}

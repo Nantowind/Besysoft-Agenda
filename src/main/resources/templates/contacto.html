@@ -6,6 +6,14 @@
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+<div class="navbar">
+  <a href="/api/persona/registrar">Registrar Persona</a>
+  <a href="/api/persona/lista">Lista de Personas</a>
+  <a href="/api/empresa/registrar">Registrar Empresa</a>
+  <a href="/api/empresa/lista">Lista de Empresas</a>
+  <a href="/api/contacto/registrar">Registrar Contacto</a>
+  <a href="/api/contacto/lista">Lista de Contactos</a>
+</div>
 <div class="container">
   <h1>Crear Contacto</h1>
   <form action="/api/contacto/registro" method="post">
@@ -13,7 +21,7 @@
     <div class="input-group">
       <label for="idPersona">Persona:</label>
       <select id="idPersona" name="idPersona">
-        <option>Seleccionar Persona</option>
+        <option value="">Seleccionar Persona</option>
 
         <option th:each="persona :${personas} "
                 th:value="${persona.id}"
@@ -35,6 +43,11 @@
     </div>
 
     <button type="submit">Crear Contacto</button>
+
+    <div th:if="${error != null}" class="error-box">
+      <h5>Mensaje de error</h5>
+      <p th:text="${error}"></p>
+    </div>
   </form>
 </div>
 </body>
