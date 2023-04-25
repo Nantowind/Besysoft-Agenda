@@ -11,15 +11,18 @@
   <table>
     <thead>
     <tr>
+      <th>id</th>
       <th>Nombre</th>
       <th>Apellido</th>
       <th>Ciudad</th>
       <th>Teléfono</th>
       <th>Email</th>
+      <th>Opciones</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="persona : ${personas}">
+      <td th:text="${persona.id}"></td>
       <td th:text="${persona.nombre}"></td>
       <td th:text="${persona.apellido}"></td>
       <td th:text="${persona.ciudad}"></td>
@@ -27,6 +30,8 @@
       <td th:text="${persona.email}"></td>
       <td>
         <a th:href="@{/api/persona/modificar/__${persona.id}__}" class="button">Modificar</a>
+        <a th:href="@{/api/persona/eliminar/__${persona.id}__}" class="button">Eliminar</a>
+
       </td>
     </tr>
     </tbody>

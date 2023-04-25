@@ -38,6 +38,18 @@ public class PersonaControlador {
         return "ModificarPersonas";
     }
 
+    @GetMapping("/eliminar/{idPersona}")
+    public String eliminarPersona(@PathVariable String idPersona) {
+        try {
+            personaServicio.eliminarPersona(idPersona);
+            return "redirect:/api/persona/lista";
+        } catch (MiException ex) {
+            Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return "redirect:/api/persona/lista";
+        }
+    }
+
+
 
     @PostMapping("/modificar/{id}")
     public String modificar(ModelMap modelo,@PathVariable String id,String nombre,

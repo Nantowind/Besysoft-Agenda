@@ -18,6 +18,7 @@
       <th>Teléfono</th>
       <th>Email</th>
       <th>Contactos</th>
+      <th>Opciones</th>
     </tr>
     </thead>
     <tbody>
@@ -43,6 +44,12 @@
       </td>
       <td>
         <a th:href="@{/api/empresa/agregar-contacto/__${empresa.id}__}" class="button">Agregar contacto</a>
+      </td>
+      <td>
+        <a th:href="@{/api/empresa/eliminar-contacto/__${empresa.id}__}" class="button">Eliminar empresa</a>
+      </td>
+      <td>
+        <a href="" class="button">Eliminar contacto</a>
       </td>
     </tr>
     </tbody>

@@ -76,7 +76,7 @@ public class EmpresaControlador {
     }
 
     @GetMapping("/agregar-contacto/{idEmpresa}")
-    public String agregarContacto(@PathVariable String idEmpresa, ModelMap modelo){
+    public String agregarContactoEmpresa(@PathVariable String idEmpresa, ModelMap modelo){
         Empresa empresa = empresaServicio.getOne(idEmpresa);
         List<Contacto> contactos = contactoServicio.listarContactos();
 
@@ -85,6 +85,32 @@ public class EmpresaControlador {
 
         return "AgregarContactoEmpresa";
     }
+
+    @GetMapping("/eliminar-contacto/{idEmpresa}")
+    public String mostrarEliminarContacto(@PathVariable String idEmpresa, ModelMap modelo) {
+        Empresa empresa = empresaServicio.getOne(idEmpresa);
+        List<Contacto> contactos = empresa.getContactos();
+
+        modelo.addAttribute("empresa", empresa);
+        modelo.addAttribute("contactos", contactos);
+
+        return "EliminarContactoEmpresa";
+    }
+    @PostMapping("/eliminar-contacto/{idEmpresa}")
+    public String eliminarContactoEmpresa(ModelMap modelo,
+                                          @PathVariable String idEmpresa,
+                                          @RequestParam String idContacto) {
+        try {
+            cargarModel(modelo);
+            empresaServicio.eliminarContactoDeEmpresa(idEmpresa, idContacto);
+            return "redirect:/api/empresa/lista";
+        } catch (MiException ex) {
+            Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return "EliminarContactoEmpresa";
+        }
+    }
+
+
     @PostMapping("/agregar-contacto/{id}")
     public String agregarContactoEmpresa(ModelMap modelo,
                                          @PathVariable String id,
