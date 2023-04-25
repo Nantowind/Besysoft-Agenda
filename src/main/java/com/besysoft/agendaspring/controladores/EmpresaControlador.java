@@ -8,10 +8,7 @@ import com.besysoft.agendaspring.servicios.EmpresaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -56,8 +53,52 @@ public class EmpresaControlador {
             return "empresa";
         }
     }
+    @GetMapping("/modificar/{id}")
+    public String modificar(@PathVariable String id, ModelMap modelo){
+        modelo.put("empresa", empresaServicio.getOne(id));
+
+        return "ModificarEmpresas";
+    }
+    @PostMapping("/modificar/{id}")
+    public String modificar(ModelMap modelo,@PathVariable String id,String nombre,
+                            String direccion,String ciudad,String telefono,String email){
+
+        cargarModel(modelo);
+        try {
+            empresaServicio.modificarEmpresa(id,nombre,direccion,ciudad,telefono,email);
+            return "redirect:../lista";
+        }catch (MiException ex){
+            Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return "TablaEmpresas";
+        }
 
 
+    }
+
+    @GetMapping("/agregar-contacto/{idEmpresa}")
+    public String agregarContacto(@PathVariable String idEmpresa, ModelMap modelo){
+        Empresa empresa = empresaServicio.getOne(idEmpresa);
+        List<Contacto> contactos = contactoServicio.listarContactos();
+
+        modelo.addAttribute("empresa", empresa);
+        modelo.addAttribute("contactos", contactos);
+
+        return "AgregarContactoEmpresa";
+    }
+    @PostMapping("/agregar-contacto/{id}")
+    public String agregarContactoEmpresa(ModelMap modelo,
+                                         @PathVariable String id,
+                                         @RequestParam String idEmpresa,
+                                         @RequestParam String idContacto) {
+        try {
+            cargarModel(modelo);
+            empresaServicio.agregarContacto(idEmpresa, idContacto);
+            return "redirect:/api/empresa/lista";
+        } catch (MiException ex) {
+            Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return "AgregarContactoEmpresa";
+        }
+    }
 
     private void cargarModel(ModelMap modelo){
         List<Contacto> contactos = contactoServicio.listarContactos();

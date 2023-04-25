@@ -39,7 +39,10 @@
         </select>
       </td>
       <td>
-        <a th:href="@{/api/empresa/modificar/__${empresa .id}__}" class="button">Modificar</a>
+        <a th:href="@{/api/empresa/modificar/__${empresa.id}__}" class="button">Modificar</a>
+      </td>
+      <td>
+        <a th:href="@{/api/empresa/agregar-contacto/__${empresa.id}__}" class="button">Agregar contacto</a>
       </td>
     </tr>
     </tbody>

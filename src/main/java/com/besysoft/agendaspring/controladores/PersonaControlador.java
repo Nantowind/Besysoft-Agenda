@@ -42,7 +42,7 @@ public class PersonaControlador {
     @PostMapping("/modificar/{id}")
     public String modificar(ModelMap modelo,@PathVariable String id,String nombre,
                             String apellido,String ciudad,String telefono,String email){
-        System.out.println("error 1");
+
         cargarModel(modelo);
         try {
             personaServicio.modificarPersona(id,nombre,apellido,ciudad,telefono,email);

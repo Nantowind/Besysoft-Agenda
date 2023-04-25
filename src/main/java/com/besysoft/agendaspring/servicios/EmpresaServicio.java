@@ -120,6 +120,9 @@ public class EmpresaServicio {
 
         return empresas;
     }
+    public Empresa getOne(String id){
+        return empresaRepositorio.getOne(id);
+    }
 
 
 }

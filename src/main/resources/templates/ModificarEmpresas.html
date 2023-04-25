@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modificar Empresa</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<form class="formulario" th:action="@{/api/empresa/modificar/__${empresa.id}__}" method="POST">
+
+  <input hidden th:value="${id}" name="id">
+
+  <div class="form-group my-3">
+    <label class="mb-2">Nombre</label>
+    <input th:value="${empresa.nombre}" type="text" class="form-control" name="nombre">
+  </div>
+
+  <div class="form-group my-3">
+    <label class="mb-2">Dirección</label>
+    <input th:value="${empresa.direccion}" type="text" class="form-control" name="direccion">
+  </div>
+
+  <div class="form-group my-3">
+    <label class="mb-2">Ciudad</label>
+    <input th:value="${empresa.ciudad}" type="text" class="form-control" name="ciudad">
+  </div>
+
+  <div class="form-group my-3">
+    <label class="mb-2">Teléfono</label>
+    <input th:value="${empresa.telefono}" type="tel" class="form-control" name="telefono">
+  </div>
+
+  <div class="form-group my-3">
+    <label class="mb-2">Email</label>
+    <input th:value="${empresa.email}" type="email" class="form-control" name="email">
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-3 botones">Actualizar</button>
+
+</form>
+</body>
+</html>
