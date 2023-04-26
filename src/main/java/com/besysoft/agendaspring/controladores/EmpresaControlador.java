@@ -6,6 +6,7 @@ import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.servicios.ContactoServicio;
 import com.besysoft.agendaspring.servicios.EmpresaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,18 +25,19 @@ public class EmpresaControlador {
     @Autowired
     private ContactoServicio contactoServicio;
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/registrar")
     private String registrar(ModelMap modelo){
         cargarModel(modelo);
         return "empresa";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/lista")
     public String lista(ModelMap modelo){
         cargarModel(modelo);
         return "TablaEmpresas";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/registro")
     public String registroEmpresa(ModelMap modelo,
                                   @RequestParam String nombre,
@@ -53,12 +55,14 @@ public class EmpresaControlador {
             return "redirect:/api/empresa/registrar";
         }
     }
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo){
         modelo.put("empresa", empresaServicio.getOne(id));
 
         return "ModificarEmpresas";
     }
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
     public String modificar(ModelMap modelo,@PathVariable String id,String nombre,
                             String direccion,String ciudad,String telefono,String email){
@@ -74,7 +78,7 @@ public class EmpresaControlador {
 
 
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/agregar-contacto/{idEmpresa}")
     public String agregarContactoEmpresa(@PathVariable String idEmpresa, ModelMap modelo){
         Empresa empresa = empresaServicio.getOne(idEmpresa);
@@ -85,7 +89,7 @@ public class EmpresaControlador {
 
         return "AgregarContactoEmpresa";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/eliminar-contacto/{idEmpresa}")
     public String mostrarEliminarContacto(@PathVariable String idEmpresa, ModelMap modelo) {
         Empresa empresa = empresaServicio.getOne(idEmpresa);
@@ -96,7 +100,7 @@ public class EmpresaControlador {
 
         return "EliminarContactoEmpresa";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/eliminar-empresa/{idEmpresa}")
     public String eliminarEmpresa(@PathVariable String idEmpresa,RedirectAttributes redirectAttrs) {
         try {
@@ -110,7 +114,7 @@ public class EmpresaControlador {
         }
         return "redirect:/api/empresa/lista";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/eliminar-contacto/{idEmpresa}")
     public String eliminarContactoEmpresa(ModelMap modelo,
                                           @PathVariable String idEmpresa,
@@ -127,7 +131,7 @@ public class EmpresaControlador {
         }
     }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/agregar-contacto/{id}")
     public String agregarContactoEmpresa(ModelMap modelo,
                                          @PathVariable String id,
@@ -142,7 +146,7 @@ public class EmpresaControlador {
             return "AgregarContactoEmpresa";
         }
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     private void cargarModel(ModelMap modelo){
         List<Contacto> contactos = contactoServicio.listarContactos();
         modelo.addAttribute("contactos",contactos);

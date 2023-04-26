@@ -1,6 +1,6 @@
 package com.besysoft.agendaspring.entidades;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity

@@ -14,13 +14,17 @@
   <a href="/api/contacto/registrar">Registrar Contacto</a>
   <a href="/api/contacto/lista">Lista de Contactos</a>
 </div>
+<div>
+  <button class="logout-btn" onclick="location.href='/api/logout'">Logout</button>
+</div>
+
 <div class="container">
   <h1>Crear Contacto</h1>
   <form action="/api/contacto/registro" method="post">
 
     <div class="input-group">
       <label for="idPersona">Persona:</label>
-      <select id="idPersona" name="idPersona">
+      <select id="idPersona" name="idPersona" required>
         <option value="">Seleccionar Persona</option>
 
         <option th:each="persona :${personas} "

@@ -5,6 +5,7 @@ import com.besysoft.agendaspring.entidades.Persona;
 import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.servicios.PersonaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -21,24 +22,26 @@ public class PersonaControlador {
     @Autowired
     private PersonaServicio personaServicio;
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/registrar")
     public String registrar(){
         return "persona";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/lista")
     public String lista(ModelMap modelo){
         cargarModel(modelo);
         return "TablaPersonas";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo){
         modelo.put("persona", personaServicio.getOne(id));
 
         return "ModificarPersonas";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/eliminar/{idPersona}")
     public String eliminarPersona(@PathVariable String idPersona, RedirectAttributes redirectAttrs) {
         try {
@@ -50,9 +53,7 @@ public class PersonaControlador {
             return "redirect:/api/persona/lista";
         }
     }
-
-
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
     public String modificar(ModelMap modelo,@PathVariable String id,String nombre,
                             String apellido,String ciudad,String telefono,String email){
@@ -68,9 +69,7 @@ public class PersonaControlador {
 
 
     }
-
-
-
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/registro")
     public String registro(@RequestParam String nombre, String apellido ,String ciudad,String telefono,String email) {
        try {
@@ -82,6 +81,7 @@ public class PersonaControlador {
        }
 
     }
+
     private void cargarModel(ModelMap modelo){
         List<Persona> personas = personaServicio.listarPersonas();
         modelo.addAttribute("personas",personas);

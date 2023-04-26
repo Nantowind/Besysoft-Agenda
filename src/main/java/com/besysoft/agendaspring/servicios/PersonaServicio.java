@@ -5,10 +5,11 @@ import com.besysoft.agendaspring.entidades.Persona;
 import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.repositorios.ContactoRepositorio;
 import com.besysoft.agendaspring.repositorios.PersonaRepositorio;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

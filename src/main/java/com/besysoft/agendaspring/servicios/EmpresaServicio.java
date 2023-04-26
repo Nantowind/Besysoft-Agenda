@@ -7,7 +7,7 @@ import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.repositorios.ContactoRepositorio;
 import com.besysoft.agendaspring.repositorios.EmpresaRepositorio;
 import com.besysoft.agendaspring.repositorios.PersonaRepositorio;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
