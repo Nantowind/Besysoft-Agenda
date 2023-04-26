@@ -33,7 +33,9 @@ public class UsuarioServicio implements UserDetailsService {
     private UsuarioRepositorio usuarioRepositorio;
 
 
-
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepositorio.findByEmail(email).orElse(null);
+    }
 
     @Transactional
     public void registrar( String nombre, String email, String password, String password2) throws MiException {

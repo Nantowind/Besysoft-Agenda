@@ -25,7 +25,6 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter{
         auth.userDetailsService(usuarioServicio)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -34,7 +33,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter{
                 .antMatchers("/api/empresa/**").hasRole("USER")
                 .antMatchers("/css/*", "/js/*", "/img/*", "/**")
                 .permitAll()
-                .antMatchers("/api/auth/login").permitAll() // Agrega esta línea
+                .antMatchers("/api/auth/**").permitAll()
                 .and().formLogin()
                 .loginPage("/api/login")
                 .loginProcessingUrl("/api/logincheck")
@@ -48,7 +47,15 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter{
                 .permitAll()
                 .and().csrf()
                 .disable();
+        http
+                .authorizeRequests()
+                .antMatchers("/admin/*").hasRole("ADMIN")
+                .antMatchers("/api/empresa/**").hasRole("USER")
+                .antMatchers("/css/*", "/js/*", "/img/*", "/**")
+                .permitAll()
+                .antMatchers("/api/auth/**").permitAll();
     }
+
 
     @Bean
     @Override
