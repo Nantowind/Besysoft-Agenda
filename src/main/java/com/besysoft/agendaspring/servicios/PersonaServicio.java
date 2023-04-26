@@ -58,15 +58,28 @@ public class PersonaServicio {
     }
 
     //listar y obtener
-    public List<Persona> listarPersonas(){
-        List <Persona> personas = new ArrayList<>();
-        personas = personaRepositorio.findAll();
-
+    public List<Persona> listarPersonas() throws MiException {
+        List<Persona> personas = personaRepositorio.findAll();
+        if (personas.isEmpty()) {
+            throw new MiException("No se encontraron personas en la base de datos.");
+        }
         return personas;
     }
     public Persona getOne(String id){
         return personaRepositorio.getOne(id);
     }
+    public List<Persona> buscarPorNombre(String nombre) {
+        return personaRepositorio.findByNombreContainingIgnoreCase(nombre);
+    }
+
+    public List<Persona> buscarPorCiudad(String ciudad) {
+        return personaRepositorio.findByCiudadIgnoreCase(ciudad);
+    }
+
+    public List<Persona> buscarPorNombreYCiudades(String nombre, List<String> ciudades) {
+        return personaRepositorio.findByNombreContainingIgnoreCaseAndCiudadInIgnoreCase(nombre, ciudades);
+    }
+
 
     //verficar datos nulos o vacios
     public void verificarDatosCrearPersona(String nombre,String apellido,String ciudad,String telefono,String mail) throws MiException {
@@ -92,4 +105,6 @@ public class PersonaServicio {
             throw new MiException("No se puede eliminar una persona vinculada a un contacto");
         }
     }
+
+
 }

@@ -22,19 +22,16 @@ public class ContactoControlador {
     @Autowired
     private EmpresaServicio empresaServicio;
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/registrar")
     public String registrar(ModelMap modelo){
         cargarModel(modelo);
         return "contacto";
     }
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/lista")
     public String lista(ModelMap modelo){
         cargarModel(modelo);
         return "TablaContactos";
     }
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
     public String modificarContacto(@PathVariable String id, ModelMap modelo) {
         Contacto contacto = contactoServicio.getOne(id);
@@ -48,7 +45,6 @@ public class ContactoControlador {
         return "ModificarContacto";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
     public String modificarContactoPost(ModelMap modelo,
                                         @PathVariable String id,
@@ -64,7 +60,6 @@ public class ContactoControlador {
     }
 
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/registro")
     public String registro(ModelMap modelo, @RequestParam String idPersona,RedirectAttributes redirectAttrs,
                            @RequestParam(required = false) String idEmpresa) {
@@ -80,7 +75,6 @@ public class ContactoControlador {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/eliminar/{id}")
     public String eliminarContacto(@PathVariable String id, ModelMap modelo, RedirectAttributes redirectAttrs) {
         try {

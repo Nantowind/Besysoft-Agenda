@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css" />
+  <title>Buscador de Personas</title>
+</head>
+<body>
+<div class="navbar">
+  <a href="/api/persona/registrar">Registrar Persona</a>
+  <a href="/api/persona/lista">Lista de Personas</a>
+  <a href="/api/persona/buscar">Buscar Personas</a>
+
+  <a href="/api/empresa/registrar">Registrar Empresa</a>
+  <a href="/api/empresa/lista">Lista de Empresas</a>
+  <a href="/api/contacto/registrar">Registrar Contacto</a>
+  <a href="/api/contacto/lista">Lista de Contactos</a>
+</div>
+<div>
+  <button class="logout-btn" onclick="location.href='/api/logout'">Logout</button>
+</div>
+<h1>Buscar Personas</h1>
+
+<div class="container">
+  <h2>Buscar por Nombre</h2>
+  <form action="/api/persona/buscarPorNombre" method="GET">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <button type="submit">Buscar</button>
+  </form>
+</div>
+
+
+<div class="container">
+  <h2>Buscar por Ciudad</h2>
+  <form action="/api/persona/buscarPorCiudad" method="GET">
+    <label for="ciudad">Ciudad:</label>
+    <input type="text" id="ciudad" name="ciudad" required>
+    <button type="submit">Buscar</button>
+  </form>
+</div>
+
+
+
+<div class="container">
+  <h2>Buscar por Nombre y Ciudades</h2>
+  <form action="/api/persona/buscarPorNombreYCiudades" method="GET">
+    <label for="nombre_ciudad">Nombre:</label>
+    <input type="text" id="nombre_ciudad" name="nombre_ciudad" required>
+    <label for="ciudades">Ciudades (separadas por comas):</label>
+    <input type="text" id="ciudades" name="ciudades" required>
+    <button type="submit">Buscar</button>
+  </form>
+
+</div>
+
+</body>
+</html>
