@@ -38,13 +38,20 @@ public class PersonaControlador {
     public String lista(ModelMap modelo){
         try {
             cargarModel(modelo);
-          return   "redirect:/api/persona/lista";
-        }catch (MiException ex){
+            return "TablaPersonas";
+        } catch (MiException ex) {
+            // Registrar el error en la consola para obtener más información
+            System.err.println("Error al obtener la lista de personas: " + ex.getMessage());
+            ex.printStackTrace();
 
+            // Agregar un mensaje de error al modelo para mostrar en la vista
+            modelo.addAttribute("error", "No se pudo obtener la lista de personas.");
+
+            return "TablaPersonas";
         }
-
-        return "TablaPersonas";
     }
+
+
 
     // Muestra el formulario de modificación de personas
     @GetMapping("/modificar/{id}")
