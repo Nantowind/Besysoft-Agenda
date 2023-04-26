@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@PreAuthorize("hasRole('USER')")
 @Controller
 @RequestMapping("/api/contacto")
 public class ContactoControlador {

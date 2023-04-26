@@ -21,28 +21,39 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Controller
+@PreAuthorize("hasRole('USER')")
 @RequestMapping("/api/persona")
 public class PersonaControlador {
-
     @Autowired
     private PersonaServicio personaServicio;
 
+    // Muestra el formulario de registro de personas
     @GetMapping("/registrar")
-    public String registrar(){
+    public String registrar() {
         return "persona";
     }
 
+    // Muestra la lista de personas
     @GetMapping("/lista")
-    public String lista(ModelMap modelo) throws MiException {
-        cargarModel(modelo);
+    public String lista(ModelMap modelo){
+        try {
+            cargarModel(modelo);
+          return   "redirect:/api/persona/lista";
+        }catch (MiException ex){
+
+        }
+
         return "TablaPersonas";
     }
-    @GetMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, ModelMap modelo){
-        modelo.put("persona", personaServicio.getOne(id));
 
+    // Muestra el formulario de modificación de personas
+    @GetMapping("/modificar/{id}")
+    public String modificar(@PathVariable String id, ModelMap modelo) {
+        modelo.put("persona", personaServicio.getOne(id));
         return "ModificarPersonas";
     }
+
+    // Elimina una persona
     @GetMapping("/eliminar/{idPersona}")
     public String eliminarPersona(@PathVariable String idPersona, RedirectAttributes redirectAttrs) {
         try {
@@ -55,39 +66,37 @@ public class PersonaControlador {
         }
     }
 
+    // Muestra el formulario de búsqueda de personas por nombre
     @GetMapping("/buscar")
-    public String buscar(){
+    public String buscar() {
         return "BuscarPersonas";
     }
 
-
+    // Busca personas por nombre
     @GetMapping("/buscarPorNombre")
     public String buscarPorNombre(@RequestParam String nombre, Model model) {
         try {
             List<Persona> personas = personaServicio.buscarPorNombre(nombre);
             model.addAttribute("personas", personas);
         } catch (MiException ex) {
-
             Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-
         }
-
         return "resultadosBusqueda";
     }
 
+    // Busca personas por ciudad
     @GetMapping("/buscarPorCiudad")
     public String buscarPorCiudad(@RequestParam String ciudad, Model model) {
         try {
             List<Persona> personas = personaServicio.buscarPorCiudad(ciudad);
             model.addAttribute("personas", personas);
         } catch (MiException ex) {
-
             Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-
         }
         return "resultadosBusqueda";
     }
 
+    // Busca personas por nombre y ciudad
     @GetMapping("/buscarPorNombreYCiudades")
     public String buscarPorNombreYCiudades(@RequestParam String nombre_ciudad, @RequestParam String ciudades, Model model) {
         List<String> listaCiudades = Arrays.asList(ciudades.split(","));
@@ -97,36 +106,35 @@ public class PersonaControlador {
     }
 
 
+    // Modifica una persona
     @PostMapping("/modificar/{id}")
-    public String modificar(ModelMap modelo,@PathVariable String id,String nombre,
-                            String apellido,String ciudad,String telefono,String email){
-
-
+    public String modificar(ModelMap modelo, @PathVariable String id, String nombre,
+                            String apellido, String ciudad, String telefono, String email) {
         try {
             cargarModel(modelo);
-            personaServicio.modificarPersona(id,nombre,apellido,ciudad,telefono,email);
+            personaServicio.modificarPersona(id, nombre, apellido, ciudad, telefono, email);
             return "redirect:../lista";
-        }catch (MiException ex){
+        } catch (MiException ex) {
             Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             return "TablaPersonas";
         }
-
-
     }
+
+    // Registra una persona
     @PostMapping("/registro")
-    public String registro(@RequestParam String nombre, String apellido ,String ciudad,String telefono,String email) {
-       try {
-           personaServicio.crearPersona(nombre,apellido,ciudad,telefono,email);
-           return "redirect:/api/persona/lista";
-       }catch (MiException ex){
-           Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-           return "redirect:/api/persona/registrar";
-       }
-
+    public String registro(@RequestParam String nombre, String apellido, String ciudad, String telefono, String email) {
+        try {
+            personaServicio.crearPersona(nombre, apellido, ciudad, telefono, email);
+            return "redirect:/api/persona/lista";
+        } catch (MiException ex) {
+            Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return "redirect:/api/persona/registrar";
+        }
     }
 
+    // A continuación, las funciones relacionadas con las solicitudes de la API de Postman
 
-    //Postman
+    // Agrega una persona
     @PostMapping("/agregar")
     @ResponseBody
     public ResponseEntity<?> agregarPersona(@RequestBody Persona persona) {
@@ -139,6 +147,7 @@ public class PersonaControlador {
         }
     }
 
+    // Lista todas las personas
     @GetMapping("/listar")
     @ResponseBody
     public ResponseEntity<?> listarPersonas() {
@@ -150,6 +159,8 @@ public class PersonaControlador {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al obtener la lista de personas: " + ex.getMessage());
         }
     }
+
+    // Busca personas por nombre
     @GetMapping("/buscarNombre")
     @ResponseBody
     public ResponseEntity<List<Persona>> buscarPersonaPorNombre(@RequestParam String nombre) {
@@ -161,6 +172,7 @@ public class PersonaControlador {
         }
     }
 
+    // Busca personas por ciudad
     @GetMapping("/buscarCiudad")
     @ResponseBody
     public ResponseEntity<List<Persona>> buscarPersonaPorCiudad(@RequestParam String ciudad) {
@@ -171,7 +183,7 @@ public class PersonaControlador {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
         }
     }
-
+    // Busca personas por nombre en ciudades
     @GetMapping("/buscarNombreEnCiudades")
     @ResponseBody
     public ResponseEntity<List<Persona>> buscarPersonaPorNombreYCiudades(@RequestParam String nombre, @RequestParam List<String> ciudades) {
@@ -179,8 +191,7 @@ public class PersonaControlador {
         return ResponseEntity.ok(personas);
     }
 
-   
-
+    // Modifica una persona usando la API
     @PutMapping("/modificarPersona")
     public ResponseEntity<String> modificarPersona(@RequestBody Persona personaActualizada) {
         try {
@@ -192,7 +203,7 @@ public class PersonaControlador {
         }
     }
 
-
+    // Elimina una persona usando la API
     @ResponseBody
     public ResponseEntity<String> eliminarPersona(@PathVariable String id) {
         try {
@@ -203,9 +214,11 @@ public class PersonaControlador {
         }
     }
 
-
+    // Carga el modelo con la lista de personas
     private void cargarModel(ModelMap modelo) throws MiException {
         List<Persona> personas = personaServicio.listarPersonas();
-        modelo.addAttribute("personas",personas);
+        modelo.addAttribute("personas", personas);
     }
+
+
 }
