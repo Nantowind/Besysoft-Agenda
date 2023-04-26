@@ -1,5 +1,6 @@
 package com.besysoft.agendaspring.servicios;
 
+import com.besysoft.agendaspring.controladores.PersonaControlador;
 import com.besysoft.agendaspring.entidades.Contacto;
 import com.besysoft.agendaspring.entidades.Persona;
 import com.besysoft.agendaspring.exepciones.MiException;
@@ -13,6 +14,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class PersonaServicio {
@@ -65,18 +68,31 @@ public class PersonaServicio {
         }
         return personas;
     }
+
     public Persona getOne(String id){
         return personaRepositorio.getOne(id);
     }
-    public List<Persona> buscarPorNombre(String nombre) {
-        return personaRepositorio.findByNombreContainingIgnoreCase(nombre);
+
+    public List<Persona> buscarPorNombre(String nombre) throws MiException {
+        List<Persona> personas = personaRepositorio.buscarPorNombre(nombre);
+        if (personas.isEmpty()) {
+            throw new MiException("No se encontraron personas con el nombre: " + nombre);
+        }
+        return personas;
     }
 
-    public List<Persona> buscarPorCiudad(String ciudad) {
-        return personaRepositorio.findByCiudadIgnoreCase(ciudad);
+    public List<Persona> buscarPorCiudad(String ciudad) throws MiException {
+        List<Persona> personas = personaRepositorio.findByCiudadIgnoreCase(ciudad);
+        if (personas.isEmpty()) {
+            throw new MiException("No se encontraron personas en la ciudad: " + ciudad);
+        }
+        return personas;
     }
 
     public List<Persona> buscarPorNombreYCiudades(String nombre, List<String> ciudades) {
+
+
+
         return personaRepositorio.findByNombreContainingIgnoreCaseAndCiudadInIgnoreCase(nombre, ciudades);
     }
 

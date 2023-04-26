@@ -22,29 +22,53 @@ public class ContactoControlador {
     @Autowired
     private EmpresaServicio empresaServicio;
 
+    // Método para cargar el modelo con los datos necesarios
+    private void cargarModel(ModelMap modelo){
+        try {
+            List<Persona> personas = personaServicio.listarPersonas();
+            List<Empresa> empresas = empresaServicio.listarEmpresas();
+            List<Contacto> contactos = contactoServicio.listarContactos();
+            modelo.addAttribute("personas",personas);
+            modelo.addAttribute("contactos",contactos);
+            modelo.addAttribute("empresas",empresas);
+        } catch (MiException ex) {
+            Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    // Método para registrar un nuevo contacto
     @GetMapping("/registrar")
     public String registrar(ModelMap modelo){
         cargarModel(modelo);
         return "contacto";
     }
+
+    // Método para listar todos los contactos
     @GetMapping("/lista")
     public String lista(ModelMap modelo){
         cargarModel(modelo);
         return "TablaContactos";
     }
+
+    // Método para modificar un contacto existente
     @GetMapping("/modificar/{id}")
     public String modificarContacto(@PathVariable String id, ModelMap modelo) {
-        Contacto contacto = contactoServicio.getOne(id);
-        List<Empresa> empresas = empresaServicio.listarEmpresas();
-        List<Persona> personas = personaServicio.listarPersonas();
+        try {
+            Contacto contacto = contactoServicio.getOne(id);
+            List<Empresa> empresas = empresaServicio.listarEmpresas();
+            List<Persona> personas = personaServicio.listarPersonas();
 
-        modelo.addAttribute("contacto", contacto);
-        modelo.addAttribute("empresas", empresas);
-        modelo.addAttribute("personas", personas);
+            modelo.addAttribute("contacto", contacto);
+            modelo.addAttribute("empresas", empresas);
+            modelo.addAttribute("personas", personas);
+        } catch (MiException ex) {
+            Logger.getLogger(EmpresaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
 
         return "ModificarContacto";
     }
 
+    // Método para actualizar un contacto con los nuevos datos
     @PostMapping("/modificar/{id}")
     public String modificarContactoPost(ModelMap modelo,
                                         @PathVariable String id,
@@ -59,7 +83,7 @@ public class ContactoControlador {
         }
     }
 
-
+    // Método para registrar un nuevo contacto
     @PostMapping("/registro")
     public String registro(ModelMap modelo, @RequestParam String idPersona,RedirectAttributes redirectAttrs,
                            @RequestParam(required = false) String idEmpresa) {
@@ -75,6 +99,8 @@ public class ContactoControlador {
         }
     }
 
+
+    // Método para eliminar un contacto
     @GetMapping("/eliminar/{id}")
     public String eliminarContacto(@PathVariable String id, ModelMap modelo, RedirectAttributes redirectAttrs) {
         try {
@@ -89,12 +115,5 @@ public class ContactoControlador {
     }
 
 
-    private void cargarModel(ModelMap modelo){
-        List<Persona> personas = personaServicio.listarPersonas();
-        List<Empresa> empresas = empresaServicio.listarEmpresas();
-        List<Contacto> contactos = contactoServicio.listarContactos();
-        modelo.addAttribute("personas",personas);
-        modelo.addAttribute("contactos",contactos);
-        modelo.addAttribute("empresas",empresas);
-    }
+
 }

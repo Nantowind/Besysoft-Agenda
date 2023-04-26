@@ -11,15 +11,14 @@ import java.util.List;
 @Repository
 public interface PersonaRepositorio extends JpaRepository<Persona,String> {
     @Query("SELECT p FROM Persona p WHERE p.id = :id")
-    public Persona buscarPorId(@Param("id") String id);
+    Persona buscarPorId(@Param("id") String id);
 
-    @Query("SELECT p FROM Persona p WHERE p.nombre = :nombre")
-    public List<Persona> buscarPorNombre(@Param("nombre") String nombre);
 
-    @Query("SELECT p FROM Persona p WHERE p.ciudad = :ciudad")
-    public List<Persona> buscarPorCiudad(@Param("ciudad") String ciudad);
+    @Query("SELECT p FROM Persona p WHERE LOWER(p.nombre) = LOWER(:nombre)")
+    List<Persona> buscarPorNombre(@Param("nombre") String nombre);
 
-    List<Persona> findByNombreContainingIgnoreCase(String nombre);
+    @Query("SELECT p FROM Persona p WHERE p.ciudad = LOWER(:ciudad)")
+    List<Persona> buscarPorCiudad(@Param("ciudad") String ciudad);
 
     List<Persona> findByCiudadIgnoreCase(String ciudad);
 
