@@ -7,6 +7,7 @@ import com.besysoft.agendaspring.entidades.Empresa;
 import com.besysoft.agendaspring.entidades.Persona;
 
 
+import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.exepciones.ResourceNotFoundException;
 import com.besysoft.agendaspring.repositorios.ContactoRepositorio;
 import com.besysoft.agendaspring.repositorios.EmpresaRepositorio;
@@ -27,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,6 +63,33 @@ public class ContactoApiControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear la empresa: " + ex.getMessage());
 
         }
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<Map<String, String>> eliminar(@PathVariable String id) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            contactoServicio.eliminarContacto(id);
+            response.put("mensaje", "Contacto eliminado exitosamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (MiException ex) {
+            Logger.getLogger(ContactoApiControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            response.put("error", "No se pudo eliminar el contacto: " + ex.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/lista")
+    public ResponseEntity<Object> lista() {
+        List<Contacto> contactos = contactoServicio.listarContactos();
+
+        if (contactos.isEmpty()) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "No hay contactos creados.");
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(contactos, HttpStatus.OK);
     }
 
 
