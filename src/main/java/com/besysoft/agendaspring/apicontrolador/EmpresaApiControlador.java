@@ -1,6 +1,8 @@
 package com.besysoft.agendaspring.apicontrolador;
 
 import com.besysoft.agendaspring.entidades.Empresa;
+import com.besysoft.agendaspring.exepciones.ContactoNotFoundException;
+import com.besysoft.agendaspring.exepciones.EmpresaNotFoundException;
 import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.servicios.ContactoServicio;
 import com.besysoft.agendaspring.servicios.EmpresaServicio;
@@ -53,14 +55,17 @@ public class EmpresaApiControlador {
         }
     }
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable String id) {
+    public ResponseEntity<Map<String, String>> eliminar(@PathVariable String id) {
+        Map<String, String> response = new HashMap<>();
         try {
             empresaServicio.eliminarEmpresa(id);
+            response.put("mensaje", "Empresa eliminada exitosamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (MiException ex) {
             Logger.getLogger(EmpresaApiControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            response.put("error", "No se pudo eliminar la empresa: " + ex.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-
-        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/agregar-contacto")
@@ -80,11 +85,22 @@ public class EmpresaApiControlador {
 
 
     @DeleteMapping("/eliminar-Contacto-En-Empresa")
-    public ResponseEntity<Void> deleteContactoToEmpresa(@RequestBody Map<String, String> ids) throws MiException {
-        String empresaId = ids.get("idEmpresa");
-        String contactoId = ids.get("idContacto");
-        empresaServicio.eliminarContactoDeEmpresa(empresaId, contactoId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> deleteContactoToEmpresa(@RequestBody Map<String, String> ids) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            String empresaId = ids.get("idEmpresa");
+            String contactoId = ids.get("idContacto");
+            empresaServicio.eliminarContactoDeEmpresa(empresaId, contactoId);
+            response.put("mensaje", "Contacto eliminado de la empresa exitosamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (MiException ex) {
+            Logger.getLogger(EmpresaApiControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            response.put("error", "No se pudo eliminar el contacto de la empresa: " + ex.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
     }
+
+
+
 
 }

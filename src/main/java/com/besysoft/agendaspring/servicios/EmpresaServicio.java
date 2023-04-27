@@ -3,6 +3,7 @@ package com.besysoft.agendaspring.servicios;
 import com.besysoft.agendaspring.entidades.Contacto;
 import com.besysoft.agendaspring.entidades.Empresa;
 
+
 import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.repositorios.ContactoRepositorio;
 import com.besysoft.agendaspring.repositorios.EmpresaRepositorio;
@@ -89,9 +90,11 @@ public class EmpresaServicio {
 
     @Transactional
     public Empresa eliminarContactoDeEmpresa(String idEmpresa, String idContacto) throws MiException {
-        verificarDatosAgregarEliminarContacto(idEmpresa,idContacto);
-        Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new RuntimeException("eliminarContactoDeEmpresa: Empresa no encontrada"));
-        Contacto contacto = contactoRepositorio.findById(idContacto).orElseThrow(() -> new RuntimeException("eliminarContactoDeEmpresa: Contacto no encontrado"));
+        verificarDatosAgregarEliminarContacto(idEmpresa, idContacto);
+        Empresa empresa = empresaRepositorio.findById(idEmpresa)
+                .orElseThrow(() -> new EmpresaNotFoundException("eliminarContactoDeEmpresa: Empresa no encontrada con el ID: " + idEmpresa));
+        Contacto contacto = contactoRepositorio.findById(idContacto)
+                .orElseThrow(() -> new ContactoNotFoundException("eliminarContactoDeEmpresa: Contacto no encontrado con el ID: " + idContacto));
 
         // Verifica si el contacto existe en la lista de contactos de la empresa
         if (empresa.getContactos().remove(contacto)) {
@@ -100,13 +103,17 @@ public class EmpresaServicio {
 
             return empresaRepositorio.save(empresa);
         } else {
-            throw new RuntimeException("El contacto no pertenece a la empresa");
+            throw new ContactoNotFoundException("El contacto no pertenece a la empresa");
         }
     }
+
+
+
     @Transactional
     public void eliminarEmpresa(String idEmpresa) throws MiException {
         verificarEmpresaAsociadaAContactos(idEmpresa);
-        Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new RuntimeException("eliminarEmpresa: Empresa no encontrada"));
+        Empresa empresa = empresaRepositorio.findById(idEmpresa)
+                .orElseThrow(() -> new EmpresaNotFoundException("eliminarEmpresa: Empresa no encontrada con el ID: " + idEmpresa));
         empresaRepositorio.delete(empresa);
     }
 
