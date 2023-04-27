@@ -1,7 +1,5 @@
 package com.besysoft.agendaspring.apicontrolador;
 
-
-
 import com.besysoft.agendaspring.entidades.Empresa;
 import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.servicios.ContactoServicio;
@@ -11,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -29,8 +28,16 @@ public class EmpresaApiControlador {
 
     // Método para listar todas las empresas
     @GetMapping("/lista")
-    public List<Empresa> lista() {
-        return empresaServicio.listarEmpresas();
+    public ResponseEntity<Object> lista() {
+        List<Empresa> empresas = empresaServicio.listarEmpresas();
+
+        if (empresas.isEmpty()) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "No hay empresas creadas.");
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(empresas, HttpStatus.OK);
     }
 
     // Método para registrar una nueva empresa
@@ -57,12 +64,21 @@ public class EmpresaApiControlador {
     }
 
     @PostMapping("/agregar-contacto")
-    public ResponseEntity<Void> addContactoToEmpresa(@RequestBody Map<String, String> ids) throws MiException {
+    public ResponseEntity<Map<String, String>> addContactoToEmpresa(@RequestBody Map<String, String> ids) throws MiException {
         String empresaId = ids.get("idEmpresa");
         String contactoId = ids.get("idContacto");
         empresaServicio.agregarContacto(empresaId, contactoId);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        Map<String, String> successResponse = new HashMap<>();
+        successResponse.put("mensaje", "Contacto agregado exitosamente a la empresa");
+
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
+
+
+
+
+
     @DeleteMapping("/eliminar-Contacto-En-Empresa")
     public ResponseEntity<Void> deleteContactoToEmpresa(@RequestBody Map<String, String> ids) throws MiException {
         String empresaId = ids.get("idEmpresa");

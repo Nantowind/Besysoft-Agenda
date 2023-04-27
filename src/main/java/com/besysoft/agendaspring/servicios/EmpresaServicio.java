@@ -2,11 +2,12 @@ package com.besysoft.agendaspring.servicios;
 
 import com.besysoft.agendaspring.entidades.Contacto;
 import com.besysoft.agendaspring.entidades.Empresa;
-import com.besysoft.agendaspring.entidades.Persona;
+
 import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.repositorios.ContactoRepositorio;
 import com.besysoft.agendaspring.repositorios.EmpresaRepositorio;
-import com.besysoft.agendaspring.repositorios.PersonaRepositorio;
+import com.besysoft.agendaspring.exepciones.EmpresaNotFoundException;
+import com.besysoft.agendaspring.exepciones.ContactoNotFoundException;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class EmpresaServicio {
@@ -25,6 +27,12 @@ public class EmpresaServicio {
 
     @Transactional
     public Empresa crearEmpresa(String nombre, String direccion, String ciudad, String telefono, String email, String idContacto) throws MiException {
+        // Validación del número de teléfono
+        String regex = "^[0-9]+$";
+        if (!Pattern.matches(regex, telefono)) {
+            throw new MiException("El número de teléfono solo debe contener dígitos.");
+        }
+
         verificarDatosCrearEmpresa(nombre, direccion, ciudad, telefono, email);
         Empresa empresa = new Empresa();
         empresa.setNombre(nombre);
@@ -68,14 +76,17 @@ public class EmpresaServicio {
     @Transactional
     public Empresa agregarContacto(String idEmpresa, String idContacto) throws MiException {
         verificarDatosAgregarEliminarContacto(idEmpresa,idContacto);
-        Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new RuntimeException("agregarContacto: Empresa no encontrada"));
-        Contacto contacto = contactoRepositorio.findById(idContacto).orElseThrow(() -> new RuntimeException("agregarContacto: Contacto no encontrado"));
+        Empresa empresa = empresaRepositorio.findById(idEmpresa).orElseThrow(() -> new EmpresaNotFoundException("agregarContacto: Empresa no encontrada"));
+        Contacto contacto = contactoRepositorio.findById(idContacto).orElseThrow(() -> new ContactoNotFoundException("agregarContacto: Contacto no encontrado"));
 
         empresa.getContactos().add(contacto);
         contacto.setEmpresa(empresa);
 
         return empresaRepositorio.save(empresa);
     }
+
+
+
     @Transactional
     public Empresa eliminarContactoDeEmpresa(String idEmpresa, String idContacto) throws MiException {
         verificarDatosAgregarEliminarContacto(idEmpresa,idContacto);
