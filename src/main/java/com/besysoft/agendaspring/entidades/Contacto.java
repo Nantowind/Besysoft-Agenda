@@ -1,10 +1,15 @@
 package com.besysoft.agendaspring.entidades;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "contacto")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+
 public class Contacto {
     @Id
     @GeneratedValue(generator = "uuid")
