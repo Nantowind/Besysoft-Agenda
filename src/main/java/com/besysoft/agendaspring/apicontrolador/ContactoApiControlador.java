@@ -101,11 +101,16 @@ public class ContactoApiControlador {
             String idEmpresa = body.get("idEmpresa");
 
             contactoServicio.modificarContacto(id, idPersona, idEmpresa);
-            return new ResponseEntity<>(HttpStatus.OK);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(contactoServicio.getOne(id));
+
         } catch (MiException ex) {
             Logger.getLogger(ContactoControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al modificar el contacto : " + ex.getMessage());
+
         }
     }
+
+
 
 }
