@@ -1,4 +1,4 @@
-package com.besysoft.agendaspring.controladores;
+package com.besysoft.agendaspring.apicontrolador;
 
 import com.besysoft.agendaspring.entidades.Usuario;
 import com.besysoft.agendaspring.servicios.UsuarioServicio;

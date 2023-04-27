@@ -1,4 +1,4 @@
-package com.besysoft.agendaspring.controladores;
+package com.besysoft.agendaspring.apicontrolador;
 
 public class LoginRequest {
     private String email;
