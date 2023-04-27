@@ -45,7 +45,7 @@ public class PersonaControlador {
             ex.printStackTrace();
 
             // Agregar un mensaje de error al modelo para mostrar en la vista
-            modelo.addAttribute("error", "No se pudo obtener la lista de personas.");
+            modelo.addAttribute("error", "No se pudo obtener la lista de personas o esta esta vacia.");
 
             return "TablaPersonas";
         }

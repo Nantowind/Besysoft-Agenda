@@ -6,38 +6,38 @@
     <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-<div class="container">
+<div>
 
     <form class="formulario" th:action="@{/api/persona/modificar/__${persona.id}__}" method="POST">
 
         <input hidden th:value="${id}" name="id">
 
-        <div class="form-group my-3">
-            <label class="mb-2">Nombre</label>
-            <input th:value="${persona.nombre}" type="text" class="form-control" name="nombre">
+        <div>
+            <label>Nombre</label>
+            <input th:value="${persona.nombre}" type="text" name="nombre" required>
         </div>
 
-        <div class="form-group my-3">
-            <label class="mb-2">Apellido</label>
-            <input th:value="${persona.apellido}" type="text" class="form-control" name="apellido">
+        <div>
+            <label>Apellido</label>
+            <input th:value="${persona.apellido}" type="text" name="apellido" required>
         </div>
 
-        <div class="form-group my-3">
-            <label class="mb-2">Ciudad</label>
-            <input th:value="${persona.ciudad}" type="text" class="form-control" name="ciudad">
+        <div>
+            <label>Ciudad</label>
+            <input th:value="${persona.ciudad}" type="text" name="ciudad" required>
         </div>
 
-        <div class="form-group my-3">
-            <label class="mb-2">Teléfono</label>
-            <input th:value="${persona.telefono}" type="tel" class="form-control" pattern="[0-9]+" name="telefono">
+        <div>
+            <label>Teléfono</label>
+            <input th:value="${persona.telefono}" type="tel" pattern="[0-9]+" name="telefono" required>
         </div>
 
-        <div class="form-group my-3">
-            <label class="mb-2">Email</label>
-            <input th:value="${persona.email}" type="email" class="form-control" name="email">
+        <div>
+            <label>Email</label>
+            <input th:value="${persona.email}" type="email" name="email" required>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3 botones">Actualizar</button>
+        <button type="submit">Actualizar</button>
         <div class="back-buttons">
             <a href="/api/persona/lista" class="back-button">Volver a Lista de Personas</a>
         </div>

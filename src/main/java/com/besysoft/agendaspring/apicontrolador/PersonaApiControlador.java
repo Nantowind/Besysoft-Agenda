@@ -5,6 +5,7 @@ import com.besysoft.agendaspring.entidades.Persona;
 import com.besysoft.agendaspring.exepciones.MiException;
 import com.besysoft.agendaspring.servicios.PersonaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,6 @@ public class PersonaApiControlador {
     }
 
 
-
     // Lista todas las personas
     @GetMapping("/listar")
     @ResponseBody
@@ -48,48 +48,74 @@ public class PersonaApiControlador {
         }
     }
 
+
     // Busca personas por nombre
     @GetMapping("/buscarNombre")
     @ResponseBody
-    public ResponseEntity<List<Persona>> buscarPersonaPorNombre(@RequestParam String nombre) {
+    public ResponseEntity<?> buscarPersonaPorNombre(@RequestParam String nombre) {
         try {
             List<Persona> personas = personaServicio.buscarPorNombre(nombre);
-            return ResponseEntity.ok(personas);
+            if (personas.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron personas con el nombre: " + nombre);
+            } else {
+                return ResponseEntity.ok(personas);
+            }
         } catch (MiException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar personas con el nombre: " + nombre + ". " + e.getMessage());
         }
     }
+
 
     // Busca personas por ciudad
     @GetMapping("/buscarCiudad")
     @ResponseBody
-    public ResponseEntity<List<Persona>> buscarPersonaPorCiudad(@RequestParam String ciudad) {
+    public ResponseEntity<?> buscarPersonaPorCiudad(@RequestParam String ciudad) {
         try {
             List<Persona> personas = personaServicio.buscarPorCiudad(ciudad);
-            return ResponseEntity.ok(personas);
+            if (personas.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron personas en la ciudad: " + ciudad);
+            } else {
+                return ResponseEntity.ok(personas);
+            }
         } catch (MiException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar personas en la ciudad: " + ciudad + ". " + e.getMessage());
         }
     }
+
+
     // Busca personas por nombre en ciudades
     @GetMapping("/buscarNombreEnCiudades")
     @ResponseBody
-    public ResponseEntity<List<Persona>> buscarPersonaPorNombreYCiudades(@RequestParam String nombre, @RequestParam List<String> ciudades) {
+    public ResponseEntity<?> buscarPersonaPorNombreYCiudades(@RequestParam String nombre, @RequestParam List<String> ciudades) {
         List<Persona> personas = personaServicio.buscarPorNombreYCiudades(nombre, ciudades);
-        return ResponseEntity.ok(personas);
+        if (personas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron personas con el nombre: " + nombre + " en las ciudades especificadas.");
+        } else {
+            return ResponseEntity.ok(personas);
+        }
     }
+
 
     // Modifica una persona usando la API
     @PutMapping("/modificarPersona")
     public ResponseEntity<String> modificarPersona(@RequestBody Persona personaActualizada) {
+        if (personaActualizada.getId() == null || personaActualizada.getNombre() == null || personaActualizada.getApellido() == null || personaActualizada.getCiudad() == null || personaActualizada.getTelefono() == null || personaActualizada.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Todos los campos son requeridos.");
+        }
+
         try {
+            Persona persona = personaServicio.getOne(personaActualizada.getId());
+            if (persona == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: No se encontró la persona con ID: " + personaActualizada.getId());
+            }
+
             personaServicio.modificarPersona(personaActualizada.getId(), personaActualizada.getNombre(), personaActualizada.getApellido(), personaActualizada.getCiudad(), personaActualizada.getTelefono(), personaActualizada.getEmail());
             return ResponseEntity.ok("Persona modificada correctamente");
-        } catch (MiException ex) {
-            Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al modificar la persona");
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al modificar la persona: " + ex.getMessage());
         }
     }
+
 
     // Elimina una persona usando la API
     @DeleteMapping("/eliminar/{id}")
@@ -100,7 +126,10 @@ public class PersonaApiControlador {
             return ResponseEntity.ok("La persona con ID " + id + " ha sido eliminada correctamente.");
         } catch (MiException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar la persona con ID " + id + ": " + e.getMessage());
+        } catch (EmptyResultDataAccessException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al eliminar la persona con ID " + id + ": Persona no encontrada");
         }
     }
+
 
 }

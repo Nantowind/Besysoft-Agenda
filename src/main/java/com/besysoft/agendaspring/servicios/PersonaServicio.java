@@ -39,8 +39,8 @@ public class PersonaServicio {
         return persona;
     }
     @Transactional
-    public Persona modificarPersona(String idPersona,String nombre,String apellido,String ciudad,String telefono,String mail) throws MiException {
-        verificarDatosModificarPersona( idPersona, nombre, apellido, ciudad, telefono, mail);
+    public Persona modificarPersona(String idPersona, String nombre, String apellido, String ciudad, String telefono, String mail) throws RuntimeException {
+        verificarDatosModificarPersona(idPersona, nombre, apellido, ciudad, telefono, mail);
         Persona persona = personaRepositorio.findById(idPersona).orElseThrow(() -> new RuntimeException("modificarPersona: Persona no encontrada"));
 
         persona.setNombre(nombre);
@@ -53,6 +53,7 @@ public class PersonaServicio {
 
         return persona;
     }
+
     @Transactional
     public void eliminarPersona(String idPersona) throws MiException {
         verificarDatosEliminarPersona(idPersona);
@@ -104,10 +105,10 @@ public class PersonaServicio {
             throw new MiException("crearPersona: Todos los campos son requeridos");
         }
     }
-    public void verificarDatosModificarPersona(String idPersona,String nombre,String apellido,String ciudad,String telefono,String mail) throws MiException {
-        if (idPersona == null || idPersona.isEmpty() ||nombre == null || nombre.isEmpty() || apellido == null || apellido.isEmpty() || ciudad == null || ciudad.isEmpty() ||
+    public void verificarDatosModificarPersona(String idPersona, String nombre, String apellido, String ciudad, String telefono, String mail) throws RuntimeException {
+        if (idPersona == null || idPersona.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null || apellido.isEmpty() || ciudad == null || ciudad.isEmpty() ||
                 telefono == null || telefono.isEmpty() || mail == null || mail.isEmpty()) {
-            throw new MiException("modificarPersona: Todos los campos son requeridos");
+            throw new RuntimeException("modificarPersona: Todos los campos son requeridos");
         }
     }
     private void verificarDatosEliminarPersona(String idPersona) throws MiException {
