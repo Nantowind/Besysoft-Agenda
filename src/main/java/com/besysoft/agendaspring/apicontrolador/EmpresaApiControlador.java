@@ -43,7 +43,7 @@ public class EmpresaApiControlador {
     }
 
     // Método para registrar una nueva empresa
-    @PostMapping("/registrar")
+    @PostMapping("/crear")
     @ResponseBody
     public ResponseEntity<?> registrar(@RequestBody Empresa empresa, @RequestParam(required = false) String idContacto) {
         try {
@@ -54,6 +54,7 @@ public class EmpresaApiControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear la empresa: " + ex.getMessage());
         }
     }
+
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Map<String, String>> eliminar(@PathVariable String id) {
         Map<String, String> response = new HashMap<>();

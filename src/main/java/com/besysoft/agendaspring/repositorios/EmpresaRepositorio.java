@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EmpresaRepositorio extends JpaRepository<Empresa, String> {
@@ -18,4 +19,5 @@ public interface EmpresaRepositorio extends JpaRepository<Empresa, String> {
     @Query("SELECT e FROM Empresa e WHERE e.ciudad = :ciudad")
     List<Empresa> buscarPorCiudad(@Param("ciudad") String ciudad);
     List<Empresa> findByContactos_Id(String idContacto);
+    Optional<Empresa> findById(String id);
 }

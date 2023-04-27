@@ -1,8 +1,11 @@
 package com.besysoft.agendaspring.apicontrolador;
 
 import com.besysoft.agendaspring.controladores.PersonaControlador;
+import com.besysoft.agendaspring.entidades.Contacto;
+import com.besysoft.agendaspring.entidades.ContactoDTO;
 import com.besysoft.agendaspring.entidades.Persona;
 import com.besysoft.agendaspring.exepciones.MiException;
+import com.besysoft.agendaspring.servicios.ContactoServicio;
 import com.besysoft.agendaspring.servicios.PersonaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,17 +23,18 @@ import java.util.logging.Logger;
 public class PersonaApiControlador {
     @Autowired
     private PersonaServicio personaServicio;
+    @Autowired
+    private ContactoServicio contactoServicio;
 
     // Agrega una persona
     @PostMapping("/agregar")
     @ResponseBody
-    public ResponseEntity<?> agregarPersona(@RequestBody Persona persona) {
+    public ResponseEntity<Contacto> createContacto(@RequestBody ContactoDTO contactoDTO) {
         try {
-            Persona nuevaPersona = personaServicio.crearPersona(persona.getNombre(), persona.getApellido(), persona.getCiudad(), persona.getTelefono(), persona.getEmail());
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaPersona);
-        } catch (MiException ex) {
-            Logger.getLogger(PersonaControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear la persona: " + ex.getMessage());
+            Contacto contacto = contactoServicio.createContacto(contactoDTO.getIdPersona(), contactoDTO.getIdEmpresa());
+            return new ResponseEntity<>(contacto, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

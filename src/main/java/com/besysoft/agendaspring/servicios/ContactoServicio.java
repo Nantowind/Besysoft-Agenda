@@ -1,9 +1,11 @@
 package com.besysoft.agendaspring.servicios;
 
 import com.besysoft.agendaspring.entidades.Contacto;
+import com.besysoft.agendaspring.entidades.ContactoDTO;
 import com.besysoft.agendaspring.entidades.Empresa;
 import com.besysoft.agendaspring.entidades.Persona;
 import com.besysoft.agendaspring.exepciones.MiException;
+
 import com.besysoft.agendaspring.repositorios.ContactoRepositorio;
 import com.besysoft.agendaspring.repositorios.EmpresaRepositorio;
 import com.besysoft.agendaspring.repositorios.PersonaRepositorio;
@@ -49,6 +51,26 @@ public class ContactoServicio {
     }
 
 
+    public Contacto createContacto(String idPersona, String idEmpresa) throws MiException {
+        Contacto contacto = new Contacto();
+        Persona persona = personaRepositorio.findById(idPersona).orElse(null);
+        Empresa empresa = null;
+
+        if (idEmpresa != null) {
+            empresa = empresaRepositorio.findById(idEmpresa).orElse(null);
+        }
+
+        if (persona == null) {
+            throw new MiException("Persona con id " + idPersona + " no encontrada.");
+        }
+
+        contacto.setPersona(persona);
+        contacto.setEmpresa(empresa);
+
+        return contactoRepositorio.save(contacto);
+    }
+
+
 
 
     @Transactional
@@ -88,13 +110,6 @@ public class ContactoServicio {
 
         contactoRepositorio.delete(contacto);
     }
-
-
-
-
-
-
-
 
 
 
