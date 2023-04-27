@@ -1,6 +1,7 @@
 package com.besysoft.agendaspring.apicontrolador;
 
 
+import com.besysoft.agendaspring.controladores.ContactoControlador;
 import com.besysoft.agendaspring.entidades.Contacto;
 import com.besysoft.agendaspring.entidades.ContactoDTO;
 import com.besysoft.agendaspring.entidades.Empresa;
@@ -92,6 +93,19 @@ public class ContactoApiControlador {
         return new ResponseEntity<>(contactos, HttpStatus.OK);
     }
 
+    @PostMapping("/modificar")
+    public ResponseEntity<?> modificarContactoPost(@RequestBody Map<String, String> body) {
+        try {
+            String id = body.get("idContacto");
+            String idPersona = body.get("idPersona");
+            String idEmpresa = body.get("idEmpresa");
 
+            contactoServicio.modificarContacto(id, idPersona, idEmpresa);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (MiException ex) {
+            Logger.getLogger(ContactoControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
