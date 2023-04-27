@@ -57,7 +57,7 @@ public class ContactoApiControlador {
     @PostMapping("/crear")
     public ResponseEntity<?> createContacto(@RequestBody ContactoDTO contactoDTO) {
         try {
-            Contacto contacto = contactoServicio.createContacto(contactoDTO.getIdPersona(), contactoDTO.getIdEmpresa());
+            Contacto contacto = contactoServicio.crearContacto(contactoDTO.getIdPersona(), contactoDTO.getIdEmpresa());
             return ResponseEntity.status(HttpStatus.CREATED).body(contacto);
         } catch (Exception ex) {
             Logger.getLogger(ContactoApiControlador.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);

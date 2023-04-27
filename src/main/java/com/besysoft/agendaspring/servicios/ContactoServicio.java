@@ -1,7 +1,7 @@
 package com.besysoft.agendaspring.servicios;
 
 import com.besysoft.agendaspring.entidades.Contacto;
-import com.besysoft.agendaspring.entidades.ContactoDTO;
+
 import com.besysoft.agendaspring.entidades.Empresa;
 import com.besysoft.agendaspring.entidades.Persona;
 import com.besysoft.agendaspring.exepciones.MiException;
