@@ -78,5 +78,7 @@ A continuación se muestra el diagrama de relación de base de datos, que repres
 
 ![Diagrama de relación de base de datos](https://drive.google.com/uc?export=view&id=1tdek-9JGki3GZHo03ji7svu4ukyXASsA)
 
+En este esquema la relación entre la entidad "Persona" y la entidad "Empresa" no es directa, sino a través de la entidad "Contacto". La entidad "Contacto" actúa como un enlace entre "Persona" y "Empresa".
+
 
 
