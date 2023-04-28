@@ -72,5 +72,6 @@ server.port=8080
 # Login y acceso web
 Para acceder a la parte web puedes hacerlo mediante /api/index encontraras como registrarte y logearte. Una vez que estés logueado, puedes acceder al resto de la funcionalidades.
 
+![Diagrama de relación de base de datos](https://drive.google.com/uc?export=view&id=1tdek-9JGki3GZHo03ji7svu4ukyXASsA)
 
 
