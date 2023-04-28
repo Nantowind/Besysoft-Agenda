@@ -72,6 +72,12 @@ server.port=8080
 # Login y acceso web
 Para acceder a la parte web puedes hacerlo mediante /api/index encontraras como registrarte y logearte. Una vez que estés logueado, puedes acceder al resto de la funcionalidades.
 
+
+
+A continuación se muestra el diagrama de relación de base de datos, que representa cómo se relacionan las diferentes entidades entre sí.
+
+![Diagrama de relación de base de datos](https://drive.google.com/uc?export=view&id=1tdek-9JGki3GZHo03ji7svu4ukyXASsA)
+
 ![Diagrama de relación de base de datos](https://drive.google.com/uc?export=view&id=1tdek-9JGki3GZHo03ji7svu4ukyXASsA)
 
 
