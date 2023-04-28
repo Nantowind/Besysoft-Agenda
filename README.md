@@ -73,10 +73,10 @@ server.port=8080
 Para acceder a la parte web puedes hacerlo mediante /api/index encontraras como registrarte y logearte. Una vez que estés logueado, puedes acceder al resto de la funcionalidades.
 
 
+# Diagrama
 
 A continuación se muestra el diagrama de relación de base de datos, que representa cómo se relacionan las diferentes entidades entre sí.
 ![Diagrama de relación de base de datos](https://drive.google.com/u/0/uc?id=1OmtQXtARmKA5BeSFCjzxJ_C4igQBVfvv&export=download)
-
 
 
 En este esquema la relación entre la entidad "Persona" y la entidad "Empresa" no es directa, sino a través de la entidad "Contacto". La entidad "Contacto" actúa como un enlace entre "Persona" y "Empresa".
