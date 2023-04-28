@@ -78,6 +78,5 @@ A continuación se muestra el diagrama de relación de base de datos, que repres
 
 ![Diagrama de relación de base de datos](https://drive.google.com/uc?export=view&id=1tdek-9JGki3GZHo03ji7svu4ukyXASsA)
 
-![Diagrama de relación de base de datos](https://drive.google.com/uc?export=view&id=1tdek-9JGki3GZHo03ji7svu4ukyXASsA)
 
 
