@@ -34,7 +34,7 @@ Ejecución de las distintas funciones a través de servicios REST, que puedan se
 ## Ejecución del proyecto
 Este proyecto se puede ejecutar con dos configuraciones diferentes: una directamente con una base de datos y otra a través de H2.
 
-## Configuración con una base de datos
+### Configuración con una base de datos
 Para esta API se usó PostgreSQL, pero puedes modificar el archivo application.properties para usar el motor de base de datos que prefieras.
 
 A continuación se muestran las configuraciones del archivo application.properties para PostgreSQL:
